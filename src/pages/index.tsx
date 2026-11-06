@@ -12,10 +12,10 @@ const ease = [0.16, 1, 0.3, 1] as const
 
 // 히어로 오른쪽 — 설비 모니터링 화면 예시 (값은 예시)
 const hudRows = [
-  { tag: 'TK-01', name: '배합가마 온도', v: '178.4', u: '℃', ok: true, spark: '0,14 10,12 20,13 30,9 40,10 50,8 60,9 70,7 80,8' },
-  { tag: 'KN-01', name: '니더기 회전수', v: '42', u: 'rpm', ok: true, spark: '0,10 10,9 20,11 30,10 40,9 50,10 60,11 70,10 80,10' },
-  { tag: 'CH-01', name: '칠러 출수 온도', v: '12.1', u: '℃', ok: true, spark: '0,8 10,9 20,8 30,10 40,9 50,8 60,9 70,8 80,9' },
-  { tag: 'PM-02', name: '이송펌프 전류', v: '18.7', u: 'A', ok: false, spark: '0,12 10,12 20,11 30,12 40,10 50,8 60,6 70,4 80,3' },
+  { tag: 'CNC-03', name: 'CNC 스핀들 부하', v: '62', u: '%', ok: true, spark: '0,10 10,8 20,11 30,9 40,7 50,10 60,8 70,9 80,8' },
+  { tag: 'PR-01', name: '프레스 오늘 타수', v: '3,420', u: '회', ok: true, spark: '0,16 10,14 20,13 30,11 40,10 50,8 60,6 70,5 80,4' },
+  { tag: 'IM-02', name: '사출기 금형 온도', v: '58.2', u: '℃', ok: true, spark: '0,9 10,10 20,9 30,8 40,9 50,10 60,9 70,9 80,8' },
+  { tag: 'AC-01', name: '공기압축기 토출 압력', v: '5.1', u: 'bar', ok: false, spark: '0,4 10,4 20,5 30,4 40,6 50,8 60,10 70,12 80,14' },
   { tag: 'LINE', name: '오늘 전력 사용량', v: '1,284', u: 'kWh', ok: true, spark: '0,16 10,14 20,13 30,11 40,10 50,8 60,6 70,5 80,4' },
 ]
 
@@ -91,7 +91,7 @@ function Hero() {
               </ul>
               <div className="flex items-center justify-between border-t border-white/10 bg-signal/10 px-5 py-3">
                 <span className="mono text-[11px] text-on-ink-2">AI · 이상 징후</span>
-                <span className="text-[12.5px] text-signal-2">이송펌프 전류가 평소보다 빠르게 떨어지고 있습니다</span>
+                <span className="text-[12.5px] text-signal-2">공기압축기 압력이 평소보다 빠르게 떨어집니다 · 배관 누설 의심</span>
               </div>
             </div>
           </motion.div>
