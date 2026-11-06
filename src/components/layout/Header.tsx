@@ -6,7 +6,7 @@ import Logo from '@/components/ui/Logo'
 import { nav } from '@/lib/site'
 
 // 어두운 히어로가 있는 페이지는 맨 위에서 헤더를 투명하게 둔다
-const DARK_HERO = ['/', '/vision', '/rtls', '/field', '/cases', '/company']
+const DARK_HERO = ['/', '/platform', '/mes', '/vision', '/rtls', '/field', '/process', '/cases', '/company']
 
 export default function Header() {
   const router = useRouter()

@@ -30,6 +30,7 @@ export default function Footer() {
               {products.map(p => (
                 <li key={p.key}><Link href={p.href} className="text-on-ink-2 hover:text-white">{p.name}</Link></li>
               ))}
+              <li><Link href="/field/" className="text-on-ink-2 hover:text-white">Factra Field</Link></li>
             </ul>
           </div>
 
@@ -37,6 +38,7 @@ export default function Footer() {
             <p className="mono text-[11px] uppercase tracking-[0.1em] text-on-ink-3">Company</p>
             <ul className="mt-4 space-y-2.5 text-[14px]">
               <li><Link href="/company/" className="text-on-ink-2 hover:text-white">회사 소개</Link></li>
+              <li><Link href="/process/" className="text-on-ink-2 hover:text-white">도입 절차</Link></li>
               <li><Link href="/cases/" className="text-on-ink-2 hover:text-white">도입 사례</Link></li>
               <li><Link href="/contact/" className="text-on-ink-2 hover:text-white">도입 문의</Link></li>
               <li><a href={company.github} target="_blank" rel="noreferrer" className="text-on-ink-2 hover:text-white">GitHub</a></li>

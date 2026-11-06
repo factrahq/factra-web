@@ -20,11 +20,29 @@ export const company = {
 
 export const products = [
   {
+    key: 'platform',
+    name: 'Factra Platform',
+    href: '/platform/',
+    short: 'DX · 설비 데이터 수집·운영 플랫폼',
+    desc: 'PLC·인버터·온도조절계·전력량계를 엣지 게이트웨이로 잇고, 노코드로 표준화해 설비·에너지·품질 운영 앱과 AI까지 한 환경에서 씁니다.',
+    image: '/images/process-plant.jpg',
+    status: '구축 진행 중',
+  },
+  {
+    key: 'mes',
+    name: 'Factra MES',
+    href: '/mes/',
+    short: 'DX · 수주·재고·생산·품질',
+    desc: '같은 기준정보 위에서 수주·재고·생산·품질 업무를 잇습니다. 실적을 확정하면 재고와 품질이 함께 움직이고, 품질 AI를 선택으로 붙입니다.',
+    image: '/images/mes-warehouse.jpg',
+    status: '도입 가능',
+  },
+  {
     key: 'vision',
     name: 'Factra Vision',
     href: '/vision/',
-    short: '비전 검사·판독 플랫폼',
-    desc: '라벨 판독, 인쇄·외관 불량, 부착 위치 계산까지. 라인 옆 엣지 장비에서 1사이클마다 판정하고 PLC·MES로 돌려줍니다.',
+    short: 'AX · 비전 검사·판독 플랫폼',
+    desc: '라벨 판독, 외관 불량, 부착 위치 계산까지. 라인 옆 엣지 장비에서 사이클마다 판정하고 PLC·MES로 돌려줍니다.',
     image: '/images/optics.jpg',
     status: '현장 가동 중',
   },
@@ -32,26 +50,19 @@ export const products = [
     key: 'rtls',
     name: 'Factra RTLS',
     href: '/rtls/',
-    short: 'UWB 실시간 위치추적',
+    short: 'AX · UWB 실시간 위치추적',
     desc: '지게차와 작업자가 가까워지면 즉시 경보. 같은 앵커·태그로 사람·자재·운반 장비의 위치를 실내에서도 실시간으로 추적합니다.',
     image: '/images/warehouse.jpg',
     status: '개발 중',
   },
-  {
-    key: 'field',
-    name: 'Factra Field',
-    href: '/field/',
-    short: '현장 실측·진단 플랫폼',
-    desc: '사진·메모·설비 통신을 현장에서 오프라인으로 기록하고, 사무실에서 설비 단위로 묶어 진단 보고서까지 이어 줍니다.',
-    image: '/images/field-measure.jpg',
-    status: '사내 운영',
-  },
 ] as const
 
 export const nav = [
+  { label: 'Platform', href: '/platform/' },
+  { label: 'MES', href: '/mes/' },
   { label: 'Vision', href: '/vision/' },
   { label: 'RTLS', href: '/rtls/' },
-  { label: 'Field', href: '/field/' },
+  { label: '도입 절차', href: '/process/' },
   { label: '도입 사례', href: '/cases/' },
   { label: '회사 소개', href: '/company/' },
 ]

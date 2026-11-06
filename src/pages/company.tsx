@@ -9,7 +9,7 @@ const principles = [
   { t: '현장 먼저', d: '책상에서 설계하지 않습니다. 라인에 가서 재고, 찍고, 신호를 확인한 뒤에 만듭니다.' },
   { t: '작게 시작해 넓힌다', d: '라인 하나, 공정 하나로 먼저 증명합니다. 숫자로 확인되면 그때 넓힙니다.' },
   { t: '플랫폼과 앱을 나눈다', d: '공장마다 다른 것은 설정과 앱으로. 검증된 공통 기반은 건드리지 않아 안정적입니다.' },
-  { t: '데이터는 공장의 것', d: '판정은 라인 옆 엣지 장비에서. 영상과 기록은 공장 밖으로 나가지 않습니다.' },
+  { t: '보안에 맞춰 둔다', d: '클라우드 구독이 기본이고, 데이터를 밖으로 낼 수 없는 공장은 공장 안 서버로 운영합니다.' },
   { t: '운영까지 책임진다', d: '설치가 끝이 아닙니다. 원격 배포·롤백·기록 재생으로 돌아가는 동안 계속 다듬습니다.' },
 ]
 
@@ -18,11 +18,11 @@ const history = [
   { d: '2026. 10', t: '전자부품 제조 현장 — 릴 라벨 비전 시스템 가동', s: '25MP 2-카메라, PLC·MES 연동, 로봇 라벨 부착 라인' },
   { d: '2026. 10', t: '화학소재 제조 현장 — 설비 데이터 수집 설계', s: '91대 기기 · 163 데이터 포인트 · 게이트웨이 9대' },
   { d: '2026. 11', t: 'FACTRA 출범', s: '현장 비전 시스템을 범용 플랫폼(Factra Vision)으로 분리 · 공장별 앱 구조 확립' },
-  { d: '2026. 11', t: 'Factra Vision — PLC 없는 현장 적용 검증', s: '센서 트리거 · 경광등 출력 · 기준 무늬 비교 검사' },
   { d: '2026. 11', t: 'Factra Field · Factra RTLS 개발 착수', s: '현장 실측 플랫폼, UWB 접근 경보·위치추적 하드웨어' },
 ]
 
 const team = [
+  { t: '설비 데이터 · IIoT', d: '실측, 수집 설계, 게이트웨이 결선, 플랫폼 활성화' },
   { t: '비전 · AI', d: '카메라·조명 구성, 분할·매칭·판독 모델 학습' },
   { t: '임베디드 · 하드웨어', d: '엣지 장비, UWB 보드·펌웨어, 설비 신호' },
   { t: '설비 연동', d: 'PLC·MES·센서·경광등 연결과 현장 시운전' },
@@ -114,7 +114,7 @@ export default function Company() {
           <div>
             <SectionHead eyebrow="Team" title={<>현장을 아는 엔지니어가<br />처음부터 끝까지.</>} desc="영업과 개발, 설치가 따로 놀지 않습니다. 상담한 엔지니어가 실측하고, 만들고, 설치합니다." />
             <FadeIn delay={0.1}>
-              <div className="mt-10 grid grid-cols-2 gap-px border border-line bg-line">
+              <div className="mt-10 grid grid-cols-2 gap-px border border-line bg-line [&>*:last-child:nth-child(odd)]:col-span-2">
                 {team.map(t => (
                   <div key={t.t} className="bg-paper-2 p-5">
                     <p className="text-[16px] font-semibold">{t.t}</p>

@@ -14,7 +14,7 @@
 | hands-electronics.jpg | Unsplash photo-1563770660941-20978e870e26 | Unsplash License |
 | process-plant.jpg | Unsplash photo-1513828583688-c52646db42da | Unsplash License |
 | sparks.jpg | Unsplash photo-1504917595217-d4dc5ebe6122 | Unsplash License |
-| print.jpg | rawpixel "Large printing machine" (Openverse) | CC0 |
+| mes-warehouse.jpg | Unsplash photo-1553413077-190dd305871c | Unsplash License |
 | jetson.jpg | Wikimedia Commons "Nvidia Jetson Nano 2 Development Kit 15 14 39 352000.jpeg" | CC0 |
 
 Unsplash 이미지 원본 주소: `https://images.unsplash.com/photo-<ID>`.
