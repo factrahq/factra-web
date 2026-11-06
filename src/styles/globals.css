@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+@theme {
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 860px;
+  --breakpoint-lg: 1120px;
+
+  /* Surfaces */
+  --color-paper: #F6F6F3;
+  --color-paper-2: #EDEDE8;
+  --color-card: #FFFFFF;
+  --color-ink: #0E0F11;
+  --color-ink-2: #17191C;
+  --color-ink-3: #22252A;
+
+  /* Text */
+  --color-fg: #111214;
+  --color-fg-2: #55575C;
+  --color-fg-3: #8B8D92;
+  --color-on-ink: #F4F4F1;
+  --color-on-ink-2: #A3A6AC;
+  --color-on-ink-3: #6B6E75;
+
+  /* Lines */
+  --color-line: #DEDED8;
+  --color-line-ink: rgba(255, 255, 255, 0.1);
+
+  /* Brand — signal orange (경광등·안전 색) */
+  --color-signal: #FF5A1F;
+  --color-signal-2: #FF7A47;
+  --color-ok: #2BB673;
+
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: "Space Grotesk", "Pretendard Variable", Pretendard, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-paper);
+  color: var(--color-fg);
+  word-break: keep-all;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+}
+
+::selection { background: var(--color-signal); color: #fff; }
+
+@layer components {
+/* Layout */
+.wrap { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+@media (min-width: 860px) { .wrap { padding: 0 40px; } }
+
+.section { padding-top: 96px; padding-bottom: 96px; }
+@media (min-width: 860px) { .section { padding-top: 136px; padding-bottom: 136px; } }
+
+/* Type */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.eyebrow::before {
+  content: "";
+  width: 8px; height: 8px;
+  background: var(--color-signal);
+}
+
+.h-display {
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+}
+.h-section {
+  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+.lead { font-size: clamp(1rem, 1.3vw, 1.125rem); line-height: 1.7; }
+
+.mono { font-family: var(--font-mono); }
+
+/* Viewfinder corners (Factra 표식) */
+.finder { position: relative; }
+.finder::before, .finder::after {
+  content: ""; position: absolute; width: 18px; height: 18px; pointer-events: none;
+  border-color: var(--color-signal); border-style: solid;
+}
+.finder::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.finder::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+/* Grid paper background for dark sections */
+.grid-ink {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.grid-paper {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+}
+
+/* Scan line animation on hero */
+@keyframes scan {
+  0% { transform: translateY(-10%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(110%); opacity: 0; }
+}
+.scanline {
+  position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-signal), transparent);
+  box-shadow: 0 0 24px 4px rgba(255, 90, 31, 0.35);
+  animation: scan 5.5s cubic-bezier(.6,0,.4,1) infinite;
+}
+
+@keyframes kenburns {
+  0% { transform: scale(1.04); }
+  100% { transform: scale(1.12) translate(-1%, -1%); }
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+.blink { animation: blink 1.6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .scanline, .blink { animation: none; }
+  html { scroll-behavior: auto; }
+}
