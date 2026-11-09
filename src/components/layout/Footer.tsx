@@ -41,7 +41,7 @@ export default function Footer() {
               <li><Link href="/process/" className="text-on-ink-2 hover:text-white">도입 절차</Link></li>
               <li><Link href="/cases/" className="text-on-ink-2 hover:text-white">도입 사례</Link></li>
               <li><Link href="/contact/" className="text-on-ink-2 hover:text-white">도입 문의</Link></li>
-              <li><a href={company.github} target="_blank" rel="noreferrer" className="text-on-ink-2 hover:text-white">GitHub</a></li>
+              <li><Link href="/privacy/" className="text-on-ink-2 hover:text-white">개인정보 처리방침</Link></li>
             </ul>
           </div>
 

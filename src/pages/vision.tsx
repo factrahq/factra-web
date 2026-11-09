@@ -64,14 +64,21 @@ const prep = [
   ['사진 반출', '샘플 사진을 회사 밖으로 보낼 수 있는지'],
 ]
 
+const security = [
+  ['판정과 사진', '모두 라인 옆 장비 안에서 처리하고 저장합니다. 검사에 인터넷이 필요 없습니다.'],
+  ['보관', '판정 기록과 증거 사진은 공장 안 장비에 남습니다. 보관 기간은 공장과 정합니다.'],
+  ['원격 지원', '공장이 허용한 경우에만, 공장이 정한 방식(VPN 등)으로 접속합니다. 허용하지 않으면 현장에서 작업합니다.'],
+  ['샘플 사진', '보내 주신 사진은 검사 가능 여부 검토에만 씁니다. 필요하면 비밀유지계약(NDA)을 먼저 맺습니다.'],
+]
+
 const specs = [
   ['엣지 장비', 'NVIDIA Jetson Orin 계열 (JetPack 6)'],
   ['카메라', '산업용 USB3 · GigE · UVC, 최대 25MP (5120×5120)'],
   ['AI', '인스턴스 분할(RTMDet), 임베딩 검색(DINOv2), 특징점 매칭, 바코드·QR·OCR'],
   ['설비 연동', 'Modbus TCP (PLC), 디지털 입출력, 경광등 · 부저'],
-  ['MES 연동', 'HTTP API — 업무 규격은 고객 앱에서 정의'],
+  ['MES 연동', 'HTTP API — 업무 규격은 고객 앱에서 정의. API가 없는 MES는 연동 방식을 따로 협의'],
   ['운영 화면', '웹 콘솔 — 실시간 상태, 처리 이력, 기준정보, 수동 촬영'],
-  ['설치 · 운영', '패키지 설치 · 롤백 스크립트, 서비스 자동 재시작, 원격 지원'],
+  ['설치 · 운영', '패키지 설치 · 롤백 스크립트, 서비스 자동 재시작, 원격 지원 (공장이 허용한 경우)'],
 ]
 
 export default function Vision() {
@@ -173,6 +180,22 @@ export default function Vision() {
       </section>
 
       <section className="section">
+        <div className="wrap grid gap-14 lg:grid-cols-[1fr_1.2fr] lg:items-start">
+          <SectionHead eyebrow="Data & security" title={<>사진과 판정은<br />공장 밖으로 나가지 않습니다.</>} desc="비전 검사는 라인 옆 장비에서 끝납니다. 클라우드를 쓰지 않습니다." />
+          <FadeIn delay={0.1}>
+            <dl className="border-t-2 border-fg">
+              {security.map(([k, v]) => (
+                <div key={k} className="grid grid-cols-[120px_1fr] gap-4 border-b border-line py-5 md:grid-cols-[160px_1fr]">
+                  <dt className="text-[15px] font-bold">{k}</dt>
+                  <dd className="text-[15px] text-fg-2">{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </FadeIn>
+        </div>
+      </section>
+
+      <section className="section bg-paper-2">
         <div className="wrap">
           <SectionHead eyebrow="Process" title="샘플 시험부터 시작합니다." desc="설치를 정하기 전에, 보내 주신 사진으로 검사가 되는지 먼저 보여 드립니다." />
           <div className="mt-16 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
@@ -187,7 +210,7 @@ export default function Vision() {
         </div>
       </section>
 
-      <section className="section bg-paper-2">
+      <section className="section">
         <div className="wrap grid gap-14 lg:grid-cols-[1fr_1.2fr] lg:items-start">
           <SectionHead eyebrow="Before you ask" title={<>상담 전에<br />준비해 주시면 좋은 것</>} desc="다 없어도 괜찮습니다. 사진만 먼저 보내 주셔도 가능 여부를 답드립니다." />
           <FadeIn delay={0.1}>

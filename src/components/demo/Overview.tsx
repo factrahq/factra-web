@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { AlertTriangle, ChevronDown } from 'lucide-react'
-import { machines, zones, isAlarm, fmt, stateLabel, stateColor, type Live, type Machine } from '@/lib/demo-factory'
+import { machines, zones, isAlarm, fmt, stateLabel, stateColor, availMin, stateText, type Live, type Machine } from '@/lib/demo-factory'
 import { Card, Kpis, Spark, Pill, ALERT } from './ui'
 
 export type LiveEvent = { time: string; tag: string; msg: string }
@@ -33,9 +33,9 @@ export default function Overview({ live, alarmIds, alarmCount, events }: { live:
   const [open, setOpen] = useState<string | null>('ac1') // 휴대폰 목록에서 펼친 설비
   const equip = machines.filter(m => m.id !== 'pm1')
   const running = equip.filter(m => m.state === 'run').length
-  const util = Math.round((equip.reduce((s, m) => s + m.runMin, 0) / (equip.length * 480)) * 100)
+  const util = Math.round((equip.reduce((s, m) => s + m.runMin, 0) / equip.reduce((s, m) => s + availMin(m), 0)) * 100)
   const m = machines.find(x => x.id === sel)!
-  const statusOf = (mc: Machine) => alarmIds.has(mc.id) ? { c: ALERT, t: '알람' } : { c: stateColor[mc.state], t: stateLabel[mc.state] }
+  const statusOf = (mc: Machine) => alarmIds.has(mc.id) ? { c: ALERT, t: '알람' } : { c: stateColor[mc.state], t: stateText(mc) }
 
   return (
     <>
@@ -45,14 +45,15 @@ export default function Overview({ live, alarmIds, alarmCount, events }: { live:
         ['오늘 가동률', String(util), '%'],
         ['현재 전력', fmt(live.pm1.kw.at(-1)!, 1), 'kW'],
         ['오늘 전력량', fmt(live.pm1.kwh.at(-1)!, 0), 'kWh'],
-        ['알람', String(alarmCount), '건', alarmCount > 0],
+        ['알람', String(alarmCount), '건 · AI 경고 1건', alarmCount > 0],
       ]} />
 
-      {live.ac1.press.at(-1)! < 5.9 && (
+      {(
+
         <div className="mt-4 flex items-start gap-3 border border-signal/40 bg-signal/10 px-4 py-3">
           <AlertTriangle size={18} className="mt-0.5 shrink-0 text-signal" />
           <p className="text-[13.5px] leading-relaxed text-on-ink">
-            <b className="text-signal-2">AI 이상 징후 · AC-01 공기압축기</b> — 토출 압력이 최근 몇 시간 동안 평소보다 빠르게 떨어지고 있습니다. 전력은 그대로라 <b>배관 누설</b>이 의심됩니다. 프레스 구역 에어 라인 점검을 권합니다.
+            <b className="text-signal-2">AI 경고 · AC-01 공기압축기</b> — 토출 압력이 3시간 전 6.2 bar에서 지금 {fmt(live.ac1.press.at(-1)!, 2)} bar까지 꾸준히 떨어지고 있습니다. 알람 기준(5.5 bar)에 닿기 전에 먼저 알립니다. 전력은 그대로라 <b>배관 누설</b>이 의심됩니다. 프레스 구역 에어 라인 점검을 권합니다.
           </p>
         </div>
       )}
@@ -148,7 +149,7 @@ export default function Overview({ live, alarmIds, alarmCount, events }: { live:
             <Values m={m} live={live} />
           </Card>
 
-          <Card title="최근 이벤트">
+          <Card title="최근 이벤트 (공장 전체)">
             <ul className="space-y-2.5">
               {events.map((e, i) => (
                 <li key={i} className="grid grid-cols-[44px_64px_1fr] gap-2 text-[12.5px]">

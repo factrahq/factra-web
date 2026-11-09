@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { LayoutDashboard, Factory, LineChart, Bell, Bot, ArrowLeft } from 'lucide-react'
 import Seo from '@/components/layout/Seo'
-import { machines, initialLive, step, isAlarm, fmt, SHIFT_START, type Live } from '@/lib/demo-factory'
-import type { LogEvent } from '@/lib/demo-data'
+import { machines, initialLive, step, isAlarm, fmt, DEMO_START_MIN, type Live } from '@/lib/demo-factory'
+import { pastEvents, type LogEvent } from '@/lib/demo-data'
 import Overview, { type LiveEvent } from '@/components/demo/Overview'
 import Equipment from '@/components/demo/Equipment'
 import Analysis from '@/components/demo/Analysis'
@@ -27,13 +27,14 @@ export default function PlatformDemo() {
 
   // 화면 주소의 #analysis 같은 값으로 바로 열 수 있게
   useEffect(() => {
-    const fromHash = () => {
+    const fromHash = () => { // eslint-disable-line
       const h = window.location.hash.slice(1) as ViewId
       if (views.some(v => v.id === h)) setView(h)
     }
     fromHash()
     window.addEventListener('hashchange', fromHash)
-    return () => window.removeEventListener('hashchange', fromHash)
+    window.addEventListener('popstate', fromHash)
+    return () => { window.removeEventListener('hashchange', fromHash); window.removeEventListener('popstate', fromHash) }
   }, [])
   const go = (id: ViewId) => {
     setView(id)
@@ -42,8 +43,12 @@ export default function PlatformDemo() {
   }
 
   useEffect(() => {
-    setNow(new Date())
-    const id = setInterval(() => { setLive(prev => step(prev)); setNow(new Date()) }, 1500)
+    // 가상 공장 시각: 오늘 14:00에서 시작해 실제 시간만큼 흐른다 (언제 열어도 같은 장면)
+    const opened = Date.now()
+    const base = new Date(); base.setHours(0, DEMO_START_MIN, 0, 0)
+    const virt = () => new Date(base.getTime() + (Date.now() - opened))
+    setNow(virt())
+    const id = setInterval(() => { setLive(prev => step(prev)); setNow(virt()) }, 1500)
     return () => clearInterval(id)
   }, [])
 
@@ -62,22 +67,19 @@ export default function PlatformDemo() {
     if (!alarms.length) return
     setLiveLog(prev => {
       const add = alarms.filter(a => !prev.some(e => e.tag === a.tag && e.msg.startsWith(a.name) && !e.resolved))
-        .map(a => ({ t: Date.now(), tag: a.tag, msg: `${a.name} ${fmt(a.v, a.digits)}${a.unit} — 기준 벗어남`, sev: 'critical' as const, resolved: false }))
+        .map(a => ({ t: now ? now.getTime() : Date.now(), tag: a.tag, msg: `${a.name} ${fmt(a.v, a.digits)}${a.unit} — 기준 벗어남`, sev: 'critical' as const, resolved: false }))
       return add.length ? [...add, ...prev] : prev
     })
   }, [alarmKey]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const recent: LiveEvent[] = useMemo(() => {
-    const shift = (min: number) => { const t = SHIFT_START + min; return `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}` }
+    if (!now) return []
     const hm = (t: number) => { const d = new Date(t); return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}` }
-    const pr2 = machines.find(m => m.id === 'pr2')!, mc1 = machines.find(m => m.id === 'mc1')!
-    return [
-      ...liveLog.slice(0, 5).map(e => ({ time: hm(e.t), tag: e.tag, msg: e.msg })),
-      { time: shift(mc1.runMin + 12), tag: 'MC-01', msg: '대기 전환 (다음 작업 대기)' },
-      { time: shift(pr2.runMin + 12), tag: 'PR-02', msg: '계획 정지 (금형 교체)' },
-      { time: hm(Date.now() - 150 * 60000), tag: 'AC-01', msg: '토출 압력 하락 추세 감지 (AI)' },
-    ]
-  }, [liveLog])
+    const dayStart = new Date(now); dayStart.setHours(0, 0, 0, 0)
+    return [...liveLog, ...pastEvents(now).filter(e => e.t >= dayStart.getTime())]
+      .sort((a, b) => b.t - a.t).slice(0, 6)
+      .map(e => ({ time: hm(e.t), tag: e.tag, msg: e.msg }))
+  }, [liveLog, now?.toDateString()]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const cur = views.find(v => v.id === view)!
   const alarmIds = new Set(alarms.map(a => a.id))
@@ -115,7 +117,7 @@ export default function PlatformDemo() {
               </div>
               <p className="mono flex items-center gap-2 text-[12px] text-ok">
                 <span className="blink h-2 w-2 rounded-full bg-ok" />LIVE
-                <span className="text-on-ink-2">{now ? now.toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : ''}</span>
+                <span className="text-on-ink-2">{now ? `가상 공장 시각 ${now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}` : ''}</span>
               </p>
             </div>
 

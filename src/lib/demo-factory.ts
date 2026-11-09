@@ -25,7 +25,9 @@ export type Machine = {
   name: string
   zone: string
   state: State
-  runMin: number // 오늘 가동 시간(분)
+  runMin: number // 오늘 가동 시간(분), 가상 공장 시각 14:00 기준
+  since?: number // 지금 상태(대기·정지)가 시작된 시각, 근무 시작부터 분
+  planned?: boolean // 계획 정지 (금형 교체 등) — 가동률 계산에서 뺀다
   x: number; y: number; w: number; h: number // 배치도 위치 (viewBox 1000×560)
   points: Point[]
 }
@@ -41,30 +43,33 @@ export const zones = [
 const power = (base: number): Point => ({ key: 'kw', name: '유효 전력', unit: 'kW', base, noise: base * 0.06, digits: 1, min: 0 })
 
 // 멈춘 시각 (오늘 주간 08:00 기준 분) — 이벤트·타임라인이 이 값과 맞는다
-export const SHIFT_START = 8 * 60
-export const SHIFT_MIN = 480
+// 데모는 실제 시각과 상관없이 '가상 공장 시각' 오늘 14:00에서 시작해 흘러간다
+export const SHIFT_START = 8 * 60 // 주간 근무 08:00–17:00
+export const SHIFT_MIN = 540
+export const DEMO_START_MIN = 14 * 60 // 가상 시각 14:00
+export const ELAPSED = DEMO_START_MIN - SHIFT_START // 근무 시작부터 지금까지 360분
 
 export const machines: Machine[] = [
-  { id: 'cnc1', tag: 'CNC-01', name: 'CNC 선반 #1', zone: '가공 구역', state: 'run', runMin: 412, x: 60, y: 90, w: 110, h: 70,
+  { id: 'cnc1', tag: 'CNC-01', name: 'CNC 선반 #1', zone: '가공 구역', state: 'run', runMin: 318, x: 60, y: 90, w: 110, h: 70,
     points: [{ key: 'load', name: '스핀들 부하', unit: '%', base: 62, noise: 6, digits: 0, limit: { hi: 90 } }, { key: 'rpm', name: '스핀들 회전수', unit: 'rpm', base: 2400, noise: 60, digits: 0 }, power(7.2)] },
-  { id: 'cnc2', tag: 'CNC-02', name: 'CNC 선반 #2', zone: '가공 구역', state: 'run', runMin: 398, x: 190, y: 90, w: 110, h: 70,
+  { id: 'cnc2', tag: 'CNC-02', name: 'CNC 선반 #2', zone: '가공 구역', state: 'run', runMin: 305, x: 190, y: 90, w: 110, h: 70,
     points: [{ key: 'load', name: '스핀들 부하', unit: '%', base: 55, noise: 6, digits: 0, limit: { hi: 90 } }, { key: 'rpm', name: '스핀들 회전수', unit: 'rpm', base: 2100, noise: 60, digits: 0 }, power(6.4)] },
-  { id: 'mc1', tag: 'MC-01', name: '머시닝센터 #1', zone: '가공 구역', state: 'idle', runMin: 236, x: 320, y: 90, w: 110, h: 70,
+  { id: 'mc1', tag: 'MC-01', name: '머시닝센터 #1', zone: '가공 구역', state: 'idle', runMin: 226, since: 250, x: 320, y: 90, w: 110, h: 70,
     points: [{ key: 'load', name: '스핀들 부하', unit: '%', base: 0, noise: 0, digits: 0, histBase: 48 }, { key: 'rpm', name: '스핀들 회전수', unit: 'rpm', base: 0, noise: 0, digits: 0, histBase: 1800 }, { ...power(0.8), histBase: 6.1 }] },
-  { id: 'pr1', tag: 'PR-01', name: '프레스 #1 (200톤)', zone: '프레스 구역', state: 'run', runMin: 430, x: 510, y: 90, w: 120, h: 120,
-    points: [{ key: 'count', name: '오늘 타수', unit: '회', base: 3420, noise: 0, digits: 0, counter: true }, { key: 'spm', name: '분당 타수', unit: 'SPM', base: 18, noise: 1, digits: 0 }, { key: 'oil', name: '작동유 온도', unit: '℃', base: 46, noise: 0.6, digits: 1, limit: { hi: 60 } }, power(11.5)] },
-  { id: 'pr2', tag: 'PR-02', name: '프레스 #2 (110톤)', zone: '프레스 구역', state: 'stop', runMin: 185, x: 650, y: 90, w: 110, h: 120,
-    points: [{ key: 'count', name: '오늘 타수', unit: '회', base: 1210, noise: 0, digits: 0 }, { key: 'spm', name: '분당 타수', unit: 'SPM', base: 0, noise: 0, digits: 0, histBase: 22 }, { key: 'oil', name: '작동유 온도', unit: '℃', base: 31, noise: 0.2, digits: 1, histBase: 44 }, { ...power(0.3), histBase: 7.8 }] },
-  { id: 'im1', tag: 'IM-01', name: '사출기 #1 (350톤)', zone: '사출 구역', state: 'run', runMin: 455, x: 60, y: 350, w: 170, h: 70,
+  { id: 'pr1', tag: 'PR-01', name: '프레스 #1 (200톤)', zone: '프레스 구역', state: 'run', runMin: 331, x: 510, y: 90, w: 120, h: 120,
+    points: [{ key: 'count', name: '오늘 타수', unit: '회', base: 5940, noise: 0, digits: 0, counter: true }, { key: 'spm', name: '분당 타수', unit: 'SPM', base: 18, noise: 1, digits: 0 }, { key: 'oil', name: '작동유 온도', unit: '℃', base: 46, noise: 0.6, digits: 1, limit: { hi: 60 } }, power(11.5)] },
+  { id: 'pr2', tag: 'PR-02', name: '프레스 #2 (110톤)', zone: '프레스 구역', state: 'stop', runMin: 180, since: 195, planned: true, x: 650, y: 90, w: 110, h: 120,
+    points: [{ key: 'count', name: '오늘 타수', unit: '회', base: 3850, noise: 0, digits: 0, counter: true }, { key: 'spm', name: '분당 타수', unit: 'SPM', base: 0, noise: 0, digits: 0, histBase: 22 }, { key: 'oil', name: '작동유 온도', unit: '℃', base: 31, noise: 0.2, digits: 1, histBase: 44 }, { ...power(0.3), histBase: 7.8 }] },
+  { id: 'im1', tag: 'IM-01', name: '사출기 #1 (350톤)', zone: '사출 구역', state: 'run', runMin: 344, x: 60, y: 350, w: 170, h: 70,
     points: [{ key: 'mold', name: '금형 온도', unit: '℃', base: 58.2, noise: 0.5, digits: 1, limit: { lo: 52, hi: 65 } }, { key: 'cycle', name: '사이클 타임', unit: '초', base: 32.4, noise: 0.4, digits: 1 }, { key: 'barrel', name: '실린더 온도', unit: '℃', base: 228, noise: 1.2, digits: 0 }, power(18.3)] },
-  { id: 'im2', tag: 'IM-02', name: '사출기 #2 (220톤)', zone: '사출 구역', state: 'run', runMin: 441, x: 250, y: 350, w: 170, h: 70,
+  { id: 'im2', tag: 'IM-02', name: '사출기 #2 (220톤)', zone: '사출 구역', state: 'run', runMin: 336, x: 250, y: 350, w: 170, h: 70,
     points: [{ key: 'mold', name: '금형 온도', unit: '℃', base: 61.5, noise: 0.5, digits: 1, limit: { lo: 52, hi: 65 } }, { key: 'cycle', name: '사이클 타임', unit: '초', base: 27.8, noise: 0.4, digits: 1 }, { key: 'barrel', name: '실린더 온도', unit: '℃', base: 221, noise: 1.2, digits: 0 }, power(13.9)] },
-  { id: 'ac1', tag: 'AC-01', name: '공기압축기 #1', zone: '유틸리티', state: 'run', runMin: 480, x: 510, y: 350, w: 110, h: 80,
-    points: [{ key: 'press', name: '토출 압력', unit: 'bar', base: 6.2, noise: 0.05, digits: 2, drift: -0.012, min: 4.9, limit: { lo: 5.5 } }, { key: 'temp', name: '토출 온도', unit: '℃', base: 82, noise: 0.8, digits: 1, limit: { hi: 100 } }, power(22.4)] },
-  { id: 'ch1', tag: 'CH-01', name: '칠러 #1', zone: '유틸리티', state: 'run', runMin: 480, x: 650, y: 350, w: 110, h: 80,
+  { id: 'ac1', tag: 'AC-01', name: '공기압축기 #1', zone: '유틸리티', state: 'run', runMin: 360, x: 510, y: 350, w: 110, h: 80,
+    points: [{ key: 'press', name: '토출 압력', unit: 'bar', base: 5.6, noise: 0.03, digits: 2, drift: -0.003, min: 5.3, limit: { lo: 5.5 } }, { key: 'temp', name: '토출 온도', unit: '℃', base: 82, noise: 0.8, digits: 1, limit: { hi: 100 } }, power(22.4)] },
+  { id: 'ch1', tag: 'CH-01', name: '칠러 #1', zone: '유틸리티', state: 'run', runMin: 360, x: 650, y: 350, w: 110, h: 80,
     points: [{ key: 'water', name: '냉각수 온도', unit: '℃', base: 18.5, noise: 0.2, digits: 1, limit: { hi: 24 } }, power(9.6)] },
-  { id: 'pm1', tag: 'PM-MAIN', name: '메인 전력량계', zone: '수전실', state: 'run', runMin: 480, x: 840, y: 90, w: 100, h: 90,
-    points: [{ key: 'kw', name: '공장 전체 전력', unit: 'kW', base: 98, noise: 3, digits: 1 }, { key: 'kwh', name: '오늘 사용량', unit: 'kWh', base: 1284, noise: 0, digits: 0, counter: true }, { key: 'pf', name: '역률', unit: '', base: 0.94, noise: 0.005, digits: 2 }] },
+  { id: 'pm1', tag: 'PM-MAIN', name: '메인 전력량계', zone: '수전실', state: 'run', runMin: 360, x: 840, y: 90, w: 100, h: 90,
+    points: [{ key: 'kw', name: '공장 전체 전력', unit: 'kW', base: 98, noise: 3, digits: 1 }, { key: 'kwh', name: '오늘 사용량', unit: 'kWh', base: 760, noise: 0, digits: 0, counter: true }, { key: 'pf', name: '역률', unit: '', base: 0.94, noise: 0.005, digits: 2 }] },
 ]
 
 export type Live = Record<string, Record<string, number[]>> // machine → point → 최근 값들 (마지막이 현재)
@@ -79,7 +84,7 @@ export function initialLive(): Live {
     for (const p of m.points) {
       live[m.id][p.key] = Array.from({ length: HISTORY }, (_, i) => {
         if (p.counter) return p.base - (HISTORY - 1 - i) * (p.key === 'kwh' ? 0.5 : 3)
-        if (p.drift) return p.base + p.drift * i
+        if (p.drift) return p.base + p.drift * (i - (HISTORY - 1)) // 마지막 값이 base
         return p.base + p.noise * Math.sin(i * 1.7 + p.base) * 0.8
       })
     }
@@ -114,3 +119,8 @@ export function isAlarm(p: Point, v: number) {
 export function fmt(v: number, digits: number) {
   return v.toLocaleString('ko-KR', { minimumFractionDigits: digits, maximumFractionDigits: digits })
 }
+
+// 가동률 = 가동 시간 / (지금까지 근무 시간 − 계획 정지 시간)
+export const availMin = (m: Machine) => (m.planned && m.since !== undefined ? m.since : ELAPSED)
+export const utilPct = (m: Machine) => Math.round((m.runMin / availMin(m)) * 100)
+export const stateText = (m: Machine) => (m.planned && m.state === 'stop' ? '계획 정지' : stateLabel[m.state])

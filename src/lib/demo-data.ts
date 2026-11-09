@@ -1,6 +1,9 @@
 // Factra Platform 데모: 이력·점검·이벤트·AI 답변용 가상 데이터.
 // 같은 날에는 같은 값이 나오도록 씨앗(seed) 있는 난수를 쓴다. 브라우저에서만 호출한다.
-import { machines, SHIFT_START, SHIFT_MIN, type Machine, type Point, type State } from './demo-factory'
+import { machines, SHIFT_START, ELAPSED, type Machine, type Point, type State } from './demo-factory'
+
+// AI가 공기압축기 압력 하락을 처음 알아챈 시각 (근무 시작부터 분 = 11:35)
+export const AI_DETECT_MIN = 215
 
 function rng(seedText: string) {
   let h = 1779033703 ^ seedText.length
@@ -18,7 +21,7 @@ export type Range = '24h' | '7d' | '30d'
 export const rangeLabel: Record<Range, string> = { '24h': '최근 24시간', '7d': '최근 7일', '30d': '최근 30일' }
 export type Sample = { t: number; v: number }
 
-const ACTIVE_KEYS = new Set(['kw', 'load', 'rpm', 'spm', 'cycle'])
+const ACTIVE_KEYS = new Set(['kw', 'load', 'rpm', 'spm'])
 
 // 근무 시간(08~17시, 평일)에는 설비가 돌고 밤·주말에는 거의 쉰다
 function activity(d: Date) {
@@ -35,24 +38,25 @@ export function history(m: Machine, p: Point, range: Range, now: Date): Sample[]
   const r = rng(`${m.id}:${p.key}:${range}:${dayKey(now)}`)
   const base = p.histBase ?? p.base
   const out: Sample[] = []
-  const end = Math.floor(now.getTime() / (stepMin * 60000)) * stepMin * 60000
+  const end = now.getTime() // 마지막 점은 언제나 '지금' (기간이 달라도 현재 값이 같다)
   const shift0 = new Date(now); shift0.setHours(0, SHIFT_START, 0, 0)
   for (let i = count - 1; i >= 0; i--) {
     const t = end - i * stepMin * 60000
     const d = new Date(t)
     let a = activity(d)
-    // 오늘 멈춘 설비는 멈춘 시각부터 0
+    // 오늘 상태가 바뀐 설비는 그 시각부터 멈춤
     const sinceShift = (t - shift0.getTime()) / 60000
-    if (m.state !== 'run' && sinceShift > m.runMin && t <= now.getTime()) a = 0
+    if (m.since !== undefined && sinceShift >= m.since && t <= now.getTime()) a = 0
     const noise = (r() - 0.5) * 2 * (p.noise || base * 0.03)
     let v: number
-    if (ACTIVE_KEYS.has(p.key)) v = Math.max(0, base * a + noise * a + (p.key === 'kw' ? base * 0.06 : 0))
+    if (p.key === 'cycle') v = a >= 0.3 ? base + noise : NaN // 서 있는 사출기는 사이클 타임이 없다
+    else if (ACTIVE_KEYS.has(p.key)) v = Math.max(0, base * a + noise * a + (p.key === 'kw' ? base * 0.06 : 0))
     else if (p.unit === '℃' && p.key !== 'water') v = base - (1 - a) * base * 0.25 + noise * 0.5
     else v = base + noise
-    // 공기압축기 토출 압력: 최근 3시간 동안 서서히 떨어진다 (배관 누설 이야기)
+    // 공기압축기 토출 압력: 평소 6.2 bar, 최근 3시간 동안 지금 값(5.6)까지 서서히 떨어진다
     if (m.id === 'ac1' && p.key === 'press') {
-      const hoursAgo = (now.getTime() - t) / 3600000
-      if (hoursAgo < 3) v = 6.2 - (3 - hoursAgo) * 0.22 + (r() - 0.5) * 0.05
+      const hoursAgo = (end - t) / 3600000
+      v = hoursAgo < 3 ? 5.6 + hoursAgo * 0.2 + (r() - 0.5) * 0.04 : 6.2 + (r() - 0.5) * 0.08
     }
     out.push({ t, v })
   }
@@ -67,22 +71,21 @@ export type Segment = { from: number; to: number; state: State } // 주간 시�
 
 export function timeline(m: Machine, now: Date): Segment[] {
   const r = rng(`tl:${m.id}:${dayKey(now)}`)
-  // 가동 중인 설비: 근무 시간 중 가동하지 않은 시간을 짧은 대기 몇 번으로 나눈다
-  // 멈춘 설비: runMin 만큼 돈 뒤 지금 상태로 바뀐다 (그 전에 짧은 대기 한 번)
-  const stopped = m.state !== 'run'
-  const idleTotal = stopped ? 12 : SHIFT_MIN - m.runMin
-  const n = idleTotal <= 0 ? 0 : stopped ? 1 : 2 + Math.floor(r() * 2)
-  const lens = Array.from({ length: n }, (_, i) => i < n - 1 ? Math.round(idleTotal / n) : idleTotal - Math.round(idleTotal / n) * (n - 1))
-  const span = stopped ? m.runMin + idleTotal : SHIFT_MIN
+  // 근무 시작부터 지금(ELAPSED)까지만 그린다. 가동하지 않은 시간은 짧은 대기 몇 번으로 나눈다
+  const runEnd = m.since ?? ELAPSED // 지금 상태가 시작된 시각
+  const idleTotal = Math.max(0, runEnd - m.runMin)
+  const n = idleTotal <= 0 ? 0 : m.since !== undefined ? 1 : 2 + Math.floor(r() * 2)
+  const each = n ? Math.round(idleTotal / n) : 0
+  const lens = Array.from({ length: n }, (_, i) => (i < n - 1 ? each : idleTotal - each * (n - 1)))
   const segs: Segment[] = []
   let t = 0
   lens.forEach((len, i) => {
-    const at = Math.max(t + 20, Math.round((span / (n + 1)) * (i + 1) + (r() - 0.5) * 40))
+    const at = Math.max(t + 20, Math.round((runEnd / (n + 1)) * (i + 1) + (r() - 0.5) * 30))
     segs.push({ from: t, to: at, state: 'run' }, { from: at, to: at + len, state: 'idle' })
     t = at + len
   })
-  segs.push({ from: t, to: span, state: 'run' })
-  if (stopped) segs.push({ from: span, to: SHIFT_MIN, state: m.state })
+  segs.push({ from: t, to: runEnd, state: 'run' })
+  if (m.since !== undefined) segs.push({ from: m.since, to: ELAPSED, state: m.state })
   return segs.filter(x => x.to > x.from)
 }
 
@@ -114,7 +117,7 @@ export const actions: Action[] = [
 export type Severity = 'critical' | 'warning' | 'info'
 export const severityLabel: Record<Severity, string> = { critical: '알람', warning: '경고', info: '정보' }
 export const severityColor: Record<Severity, string> = { critical: '#d03b3b', warning: '#fab219', info: '#6B6E75' }
-export type LogEvent = { t: number; tag: string; msg: string; sev: Severity; resolved: boolean }
+export type LogEvent = { t: number; tag: string; msg: string; sev: Severity; resolved: boolean; planned?: boolean }
 
 export function pastEvents(now: Date): LogEvent[] {
   const day = 86400000
@@ -122,9 +125,9 @@ export function pastEvents(now: Date): LogEvent[] {
   const today = (min: number) => at(0, 0, SHIFT_START + min)
   const pr2 = machines.find(m => m.id === 'pr2')!, mc1 = machines.find(m => m.id === 'mc1')!
   return [
-    { t: today(mc1.runMin + 12), tag: 'MC-01', msg: '대기 전환 (다음 작업 대기)', sev: 'info', resolved: true },
-    { t: today(pr2.runMin + 12), tag: 'PR-02', msg: '계획 정지 (금형 교체)', sev: 'info', resolved: false },
-    { t: now.getTime() - 150 * 60000, tag: 'AC-01', msg: '토출 압력 하락 추세 감지 (AI)', sev: 'warning', resolved: false },
+    { t: today(mc1.since!), tag: 'MC-01', msg: '대기 전환 (다음 작업 대기)', sev: 'info', resolved: true },
+    { t: today(pr2.since!), tag: 'PR-02', msg: '계획 정지 (금형 교체)', sev: 'info', resolved: true, planned: true },
+    { t: today(AI_DETECT_MIN), tag: 'AC-01', msg: '토출 압력 하락 추세 감지 (AI)', sev: 'warning', resolved: false },
     { t: at(1, 15, 42), tag: 'IM-02', msg: '사이클 타임 34.1초 — 평소보다 22% 김', sev: 'warning', resolved: true },
     { t: at(1, 10, 8), tag: 'CH-01', msg: '냉각수 온도 24.6℃ — 기준 24℃ 넘음', sev: 'critical', resolved: true },
     { t: at(2, 14, 20), tag: 'PM-MAIN', msg: '공장 전력 142kW — 피크 알림 기준 넘음', sev: 'warning', resolved: true },

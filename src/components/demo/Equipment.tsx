@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { CheckCircle2, Circle, AlertCircle } from 'lucide-react'
-import { machines, stateLabel, stateColor, SHIFT_MIN } from '@/lib/demo-factory'
+import { machines, stateLabel, stateColor, SHIFT_MIN, ELAPSED, availMin, utilPct } from '@/lib/demo-factory'
 import { timeline, clock, inspections, actions } from '@/lib/demo-data'
 import { Card, Kpis, Pill, SERIES } from './ui'
 
@@ -8,7 +8,7 @@ const dayName = ['일', '월', '화', '수', '목', '금', '토']
 
 export default function Equipment({ now }: { now: Date }) {
   const equip = machines.filter(m => m.id !== 'pm1')
-  const ranked = [...equip].sort((a, b) => b.runMin - a.runMin)
+  const ranked = [...equip].sort((a, b) => utilPct(b) - utilPct(a))
   const tl = useMemo(() => Object.fromEntries(equip.map(m => [m.id, timeline(m, now)])), [now.toDateString()]) // eslint-disable-line react-hooks/exhaustive-deps
   const [tip, setTip] = useState<string | null>(null)
 
@@ -26,16 +26,16 @@ export default function Equipment({ now }: { now: Date }) {
         ['연체 점검', String(overdue.length), '건', overdue.length > 0],
         ['진행 중 조치', String(openActions.length), '건'],
         ['이번 주 점검', String(inspections.filter(i => i.due >= 0 && i.due < 7).length), '건'],
-        ['평균 가동률', String(Math.round(equip.reduce((s, m) => s + m.runMin, 0) / (equip.length * SHIFT_MIN) * 100)), '%'],
+        ['평균 가동률', String(Math.round(equip.reduce((s, m) => s + m.runMin, 0) / equip.reduce((s, m) => s + availMin(m), 0) * 100)), '%'],
       ]} />
 
       <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
-        <Card title="오늘 설비별 가동률" right={<span className="text-[11.5px] text-on-ink-3">주간 근무 08:00–16:00 기준</span>}>
+        <Card title="오늘 설비별 가동률" right={<span className="text-[11.5px] text-on-ink-3">08:00부터 지금까지 · 계획 정지 제외</span>}>
           <ul className="space-y-2.5">
             {ranked.map((m, i) => {
-              const pct = Math.round((m.runMin / SHIFT_MIN) * 100)
+              const pct = utilPct(m)
               return (
-                <li key={m.id} className="grid grid-cols-[18px_96px_1fr_42px] items-center gap-2 text-[12.5px]" title={`${m.name} · 가동 ${m.runMin}분 / ${SHIFT_MIN}분`}>
+                <li key={m.id} className="grid grid-cols-[18px_96px_1fr_42px] items-center gap-2 text-[12.5px]" title={`${m.name} · 가동 ${m.runMin}분 / ${availMin(m)}분${m.planned ? ' (계획 정지 제외)' : ''}`}>
                   <span className="mono text-on-ink-3">{i + 1}</span>
                   <span className="truncate"><span className="mono">{m.tag}</span></span>
                   <span className="h-3 bg-white/[0.05]">
@@ -53,6 +53,7 @@ export default function Equipment({ now }: { now: Date }) {
             {(['run', 'idle', 'stop'] as const).map(s => (
               <span key={s} className="flex items-center gap-1.5 text-[11.5px] text-on-ink-2"><span className="h-2 w-3" style={{ background: stateColor[s] }} />{stateLabel[s]}</span>
             ))}
+            <span className="flex items-center gap-1.5 text-[11.5px] text-on-ink-2"><span className="h-2 w-3 bg-white/[0.08]" />남은 근무</span>
           </div>
         }>
           <ul className="space-y-2">
@@ -69,19 +70,20 @@ export default function Equipment({ now }: { now: Date }) {
                         style={{ width: `${((s.to - s.from) / SHIFT_MIN) * 100}%`, background: stateColor[s.state] }}>
                         {tip === id && (
                           <span className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1.5 -translate-x-1/2 whitespace-nowrap border border-line-ink bg-ink px-2 py-1 text-[11.5px] text-on-ink shadow-lg">
-                            <b>{stateLabel[s.state]}</b> · {clock(s.from)}–{clock(s.to)} ({s.to - s.from}분)
+                            <b>{m.planned && s.state === 'stop' ? '계획 정지' : stateLabel[s.state]}</b> · {clock(s.from)}–{s.to >= ELAPSED ? '지금' : clock(s.to)} ({s.to - s.from}분)
                           </span>
                         )}
                       </button>
                     )
                   })}
+                  <span className="h-full rounded-r-[3px] bg-white/[0.04]" style={{ width: `${((SHIFT_MIN - ELAPSED) / SHIFT_MIN) * 100}%` }} aria-hidden />
                 </div>
               </li>
             ))}
           </ul>
           <div className="mt-2 grid grid-cols-[64px_1fr] gap-2">
             <span />
-            <div className="mono flex justify-between text-[10.5px] text-on-ink-3"><span>08:00</span><span>10:00</span><span>12:00</span><span>14:00</span><span>16:00</span></div>
+            <div className="mono relative h-4 text-[10.5px] text-on-ink-3">{[0, 180, 360, 540].map(t => <span key={t} className="absolute -translate-x-1/2 first:translate-x-0 last:-translate-x-full" style={{ left: `${t / SHIFT_MIN * 100}%` }}>{clock(t)}</span>)}</div>
           </div>
         </Card>
       </div>

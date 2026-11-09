@@ -61,7 +61,7 @@ export default function Events({ now, live }: { now: Date; live: LogEvent[] }) {
                   <span className="col-span-2 text-[13.5px] sm:col-span-1">{e.msg}</span>
                   <span className="col-span-2 flex items-center gap-3 text-[12px] sm:col-span-1 sm:justify-end">
                     <span className="inline-flex items-center gap-1" style={{ color: severityColor[e.sev] === '#6B6E75' ? '#A3A6AC' : severityColor[e.sev] }}><Icon size={14} />{severityLabel[e.sev]}</span>
-                    <span className={e.resolved ? 'text-on-ink-3' : 'text-on-ink'}>{e.resolved ? '해결' : '미해결'}</span>
+                    <span className={e.resolved ? 'text-on-ink-3' : 'text-on-ink'}>{e.planned ? '계획' : e.resolved ? '해결' : '미해결'}</span>
                   </span>
                 </li>
               )

@@ -14,7 +14,7 @@ export default function Analysis({ now }: { now: Date }) {
   const series = useMemo(() => picked.map(id => {
     const a = analysisPoints.find(x => x.id === id)!
     const data = history(a.m, a.p, range, now)
-    const vals = data.map(d => d.v)
+    const vals = data.map(d => d.v).filter(Number.isFinite)
     return { ...a, data, avg: vals.reduce((s, v) => s + v, 0) / vals.length, min: Math.min(...vals), max: Math.max(...vals), out: vals.filter(v => isAlarm(a.p, v)).length }
   }), [picked, range, now.toDateString()]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -29,7 +29,7 @@ export default function Analysis({ now }: { now: Date }) {
   const csv = () => {
     if (!series.length) return
     const head = ['시각', ...series.map(s => `${s.m.tag} ${s.p.name}(${s.p.unit})`)]
-    const rows = series[0].data.map((d, i) => [new Date(d.t).toLocaleString('ko-KR'), ...series.map(s => s.data[i].v.toFixed(s.p.digits))])
+    const rows = series[0].data.map((d, i) => [new Date(d.t).toLocaleString('ko-KR'), ...series.map(s => Number.isFinite(s.data[i].v) ? s.data[i].v.toFixed(s.p.digits) : '')])
     const text = '﻿' + [head, ...rows].map(r => r.map(c => `"${c}"`).join(',')).join('\n')
     const url = URL.createObjectURL(new Blob([text], { type: 'text/csv;charset=utf-8' }))
     const a = document.createElement('a'); a.href = url; a.download = `factra-demo-${range}.csv`; a.click()
@@ -107,7 +107,7 @@ export default function Analysis({ now }: { now: Date }) {
                       return (
                         <tr key={d.t}>
                           <td className="py-1.5 text-left text-on-ink-2">{timeFmt(d.t)}</td>
-                          {series.map(s => <td key={s.id} className={isAlarm(s.p, s.data[i].v) ? 'text-signal' : ''}>{fmt(s.data[i].v, s.p.digits)}</td>)}
+                          {series.map(s => <td key={s.id} className={isAlarm(s.p, s.data[i].v) ? 'text-signal' : ''}>{Number.isFinite(s.data[i].v) ? fmt(s.data[i].v, s.p.digits) : '–'}</td>)}
                         </tr>
                       )
                     })}
@@ -133,7 +133,7 @@ export default function Analysis({ now }: { now: Date }) {
                       {s.p.limit ? (s.out ? <b className="text-signal-2"> · 기준을 {s.out}번 벗어남</b> : ' · 기준 안') : ''}
                     </li>
                   ))}
-                  <li className="pt-1 text-[12px] text-on-ink-3">근무 시간(08~17시)에 값이 오르고 밤·주말에는 내려가는 평소 패턴입니다.</li>
+                  <li className="pt-1 text-[12px] text-on-ink-3">근무 시간(08:00–17:00)에 값이 오르고 밤·주말에는 내려가는 평소 패턴입니다. 설비가 서 있는 동안 사이클 타임은 비어 있습니다.</li>
                 </ul>
               )}
             </Card>

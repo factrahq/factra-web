@@ -11,12 +11,12 @@ const layers = [
   {
     tag: 'FIELD',
     title: '현장 기기',
-    items: ['PLC (LS · Siemens · Delta …)', '인버터', '온도조절계', '전력량계 · CT', '진동 · 압력 · 근접 센서', '칠러 · 보일러 컨트롤러'],
+    items: ['PLC (LS · 미쓰비시 · 지멘스 · 옴론 등)', '인버터', '온도조절계', '전력량계 · CT', '진동 · 압력 · 근접 센서', '칠러 · 보일러 컨트롤러'],
   },
   {
     tag: 'EDGE',
     title: 'Factra Gateway',
-    items: ['RS-485 · Ethernet · Wi-Fi', 'Modbus RTU / TCP', 'PLC 전용 프로토콜', '설비 1대당 1대 배치', '끊겨도 먼저 저장 후 전송'],
+    items: ['설비 값을 모아 보내는 현장 수집 장치', 'RS-485 · Ethernet · Wi-Fi', 'Modbus RTU / TCP', 'PLC 전용 프로토콜', '제어반 · 통신선 단위로 배치', '끊겨도 먼저 저장 후 전송'],
   },
   {
     tag: 'PLATFORM',
@@ -53,12 +53,12 @@ const why = [
 export default function Platform() {
   return (
     <>
-      <Seo title="Factra Platform — 설비 데이터 수집·운영 플랫폼 (DX)" description="엣지 게이트웨이로 PLC·인버터·온도조절계·전력량계를 잇고, 노코드로 표준화해 설비·에너지·품질 운영 앱과 AI까지. 제조 DX를 위한 Factra Platform." />
+      <Seo title="Factra Platform — 설비 데이터 수집·운영 플랫폼 (DX)" description="현장 수집 장치(게이트웨이)로 PLC·인버터·온도조절계·전력량계를 잇고, 노코드로 표준화해 설비·에너지·품질 운영 앱과 AI까지. 제조 DX를 위한 Factra Platform." />
       <PageHero
         eyebrow="Factra Platform · DX"
         image="/images/control-room.jpg"
         title={<>현장 연결부터 운영 앱, AI까지<br />하나의 환경에서.</>}
-        desc="Factra Platform은 설비 데이터 수집·운영 플랫폼입니다. 엣지 게이트웨이로 설비를 잇고, 노코드로 데이터를 표준화하고, 그 위에서 설비·에너지·품질 앱과 AI를 바로 씁니다."
+        desc="Factra Platform은 설비 데이터 수집·운영 플랫폼입니다. 현장 수집 장치(게이트웨이)로 설비 값을 모으고, 노코드로 데이터를 표준화하고, 그 위에서 설비·에너지·품질 앱과 AI를 바로 씁니다."
       >
         <Button href="/contact/">도입 상담</Button>
         <Button href="/platform/demo/" variant="ghost-light">데모 보기</Button>
@@ -67,7 +67,7 @@ export default function Platform() {
       {/* 3층 구조 */}
       <section className="section">
         <div className="wrap">
-          <SectionHead eyebrow="Architecture" title="기기에서 AI까지, 네 층을 한 번에." desc="게이트웨이만 파는 회사, 대시보드만 만드는 회사가 따로 있으면 그 사이가 늘 비어 있습니다. Factra는 현장 결선부터 앱까지 한 구조로 책임집니다." />
+          <SectionHead eyebrow="Architecture" title="기기에서 AI까지, 네 층을 한 번에." desc="수집 장치만 파는 회사, 대시보드만 만드는 회사가 따로 있으면 그 사이가 늘 비어 있습니다. Factra는 현장 결선부터 앱까지 한 구조로 책임집니다." />
           <div className="mt-16 grid gap-4 lg:grid-cols-4">
             {layers.map((l, i) => (
               <FadeIn key={l.tag} delay={i * 0.08} className={`relative border p-7 ${i === 1 || i === 2 ? 'border-ink bg-ink text-white' : 'border-line bg-card'}`}>
@@ -143,9 +143,9 @@ export default function Platform() {
               </svg>
               <dl className="mt-6 grid grid-cols-2 gap-px border border-line bg-line text-[13.5px]">
                 {[
-                  ['배치', '설비 1대당 1대'],
-                  ['규모', '1대당 최대 150 포인트'],
-                  ['통신', 'RS-485 · Ethernet · Wi-Fi'],
+                  ['하는 일', '설비 값을 모아 플랫폼으로 보냄'],
+                  ['배치', '제어반 · 통신선 단위'],
+                                    ['통신', 'RS-485 · Ethernet · Wi-Fi'],
                   ['원칙', '가동 설비는 읽기 전용'],
                 ].map(([k, v]) => (
                   <div key={k} className="bg-card p-4"><dt className="mono text-[11px] text-fg-3">{k}</dt><dd className="mt-1 font-semibold">{v}</dd></div>

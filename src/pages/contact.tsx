@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Mail, Clock, MapPinned } from 'lucide-react'
+import Link from 'next/link'
 import Seo from '@/components/layout/Seo'
 import { company } from '@/lib/site'
 
@@ -9,7 +10,7 @@ const topics = ['설비 데이터 수집', 'MES', '비전 검사 · 판독', 'UW
 const hints: Record<string, string[]> = {
   '설비 데이터 수집': ['라인 수와 설비 대수', '주요 설비의 제조사 · 모델 (명판 사진)', '지금 기록하는 방식 (수기 · 표시기 · 없음)'],
   MES: ['지금 쓰는 방식 (엑셀 · 수기 · 기존 시스템)', '품목 수와 하루 작업지시 건수', '먼저 바꾸고 싶은 업무 (수주 · 재고 · 생산 · 품질)'],
-  '비전 검사 · 판독': ['검사·판독 대상 사진 (정상 / 불량)', '라인 속도 (분당 몇 개, 사이클 타임)', '지금 판정 방법과 연결된 설비 (PLC 기종 · MES 유무)'],
+  '비전 검사 · 판독': ['검사·판독 대상 사진 (정상 / 불량)', '라인 속도 (분당 몇 개, 사이클 타임)', '지금 판정 방법과 연결된 설비 (PLC 기종 · MES 유무)', '사진을 회사 밖으로 보낼 수 있는지 (어렵다면 현장에서 시험합니다)'],
   'UWB 위치추적 · 안전': ['통로 도면이나 배치 사진', '지게차 대수와 작업자 수', '사고·아차사고가 잦은 구역'],
   '현장 진단': ['공장 위치와 라인 수', '가장 먼저 해결하고 싶은 문제'],
   기타: ['지금 겪는 문제와 공정'],
@@ -92,12 +93,13 @@ export default function Contact() {
             </label>
             <label className="mt-5 flex items-start gap-2.5 text-[13.5px] text-fg-2">
               <input type="checkbox" required className="mt-1 accent-[#FF5A1F]" />
-              문의 답변을 위해 회사명·담당자·연락처를 수집·이용하는 데 동의합니다. (답변 완료 후 1년 보관)
+              <span>문의 답변을 위해 회사명·담당자·연락처를 수집·이용하는 데 동의합니다. (답변 완료 후 1년 보관) <Link href="/privacy/" className="underline underline-offset-2">개인정보 처리방침</Link></span>
             </label>
             <button type="submit" className="mt-8 h-13 w-full bg-signal py-4 text-[16px] font-semibold text-white transition-colors hover:bg-signal-2">
               문의 보내기
             </button>
-            {sent && <p className="mt-4 text-[14px] text-fg-2">메일 작성 창이 열렸습니다. 열리지 않으면 {company.email} 로 직접 보내 주세요.</p>}
+            <p className="mt-3 text-[13px] text-fg-3">보내기를 누르면 내용이 담긴 메일 작성 창이 열립니다. 사진·도면은 그 메일에 첨부해 주세요.</p>
+            {sent && <p className="mt-4 text-[14px] text-fg-2">메일 작성 창이 열렸습니다. 사진을 첨부해 보내 주세요. 창이 열리지 않으면 {company.email} 로 직접 보내 주세요.</p>}
           </form>
         </div>
       </section>

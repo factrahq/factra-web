@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import { Send, Bot, User } from 'lucide-react'
-import { machines, fmt, SHIFT_MIN } from '@/lib/demo-factory'
-import { weeklyKwh, inspections } from '@/lib/demo-data'
+import { machines, fmt, utilPct, stateText } from '@/lib/demo-factory'
+import { weeklyKwh, inspections, timeline, clock } from '@/lib/demo-data'
 
 type Msg = { who: 'me' | 'ai'; text: string; extra?: ReactNode }
 
@@ -15,9 +15,9 @@ export default function Assistant({ now, acPress }: { now: Date; acPress: number
     {
       q: '오늘 가동률이 가장 낮은 설비는?',
       a: () => {
-        const low = [...equip].sort((a, b) => a.runMin - b.runMin).slice(0, 2)
+        const low = [...equip].sort((a, b) => utilPct(a) - utilPct(b)).slice(0, 2)
         return {
-          who: 'ai', text: `오늘 주간 근무(08:00–16:00) 기준으로 가동률이 가장 낮은 설비는 ${low.map(m => `${m.tag} ${m.name} ${Math.round(m.runMin / SHIFT_MIN * 100)}%`).join(', ')}입니다. PR-02는 금형 교체로 계획 정지 중이고, MC-01은 다음 작업을 기다리는 대기 상태입니다. 둘 다 고장 알람은 없습니다.`,
+          who: 'ai', text: `오늘 08:00부터 지금까지 가동률이 가장 낮은 설비는 ${low.map(m => `${m.tag} ${m.name} ${utilPct(m)}%`).join(', ')}입니다. ${low.map(m => m.since !== undefined ? `${m.tag} 설비는 ${clock(m.since)}부터 ${stateText(m)} 상태입니다.` : `${m.tag} 설비는 오늘 짧은 대기가 ${timeline(m, now).filter(x => x.state === 'idle').length}번 있었습니다.`).join(' ')} PR-02의 금형 교체(계획 정지) 시간은 가동률 계산에서 뺐습니다. 고장 알람은 없습니다.`,
         }
       },
     },

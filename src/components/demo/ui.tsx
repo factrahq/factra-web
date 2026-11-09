@@ -63,14 +63,15 @@ export function LineChart({ data, digits, unit, limit, timeFmt, height = 170 }: 
   const [ref, w] = useWidth<HTMLDivElement>()
   const [hover, setHover] = useState<number | null>(null)
   const padL = 44, padR = 12, padT = 10, padB = 24
-  const vals = data.map(d => d.v)
+  const vals = data.map(d => d.v).filter(Number.isFinite)
   const lims = [limit?.lo, limit?.hi].filter((x): x is number => x !== undefined)
   let min = Math.min(...vals, ...lims), max = Math.max(...vals, ...lims)
   if (max - min < 1e-9) { min -= 1; max += 1 }
   const pad = (max - min) * 0.08; min -= pad; max += pad
   const x = (i: number) => padL + (i / (data.length - 1)) * (w - padL - padR)
   const y = (v: number) => padT + (1 - (v - min) / (max - min)) * (height - padT - padB)
-  const path = data.map((d, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(d.v).toFixed(1)}`).join('')
+  // 값이 없는 구간(설비 정지 중 사이클 타임 등)은 선을 끊는다
+  const path = data.map((d, i) => !Number.isFinite(d.v) ? '' : `${i && Number.isFinite(data[i - 1].v) ? 'L' : 'M'}${x(i).toFixed(1)},${y(d.v).toFixed(1)}`).join('')
   const ticks = [min + pad, (min + max) / 2, max - pad]
   const xt = [0, Math.floor(data.length / 2), data.length - 1]
   const onMove = (e: React.PointerEvent<SVGSVGElement>) => {
@@ -98,7 +99,7 @@ export function LineChart({ data, digits, unit, limit, timeFmt, height = 170 }: 
           </g>
         ))}
         <path d={path} fill="none" stroke={SERIES} strokeWidth="2" strokeLinejoin="round" />
-        {hv && hover !== null && (
+        {hv && hover !== null && Number.isFinite(hv.v) && (
           <g>
             <line x1={x(hover)} x2={x(hover)} y1={padT} y2={height - padB} stroke="rgba(255,255,255,0.35)" />
             <circle cx={x(hover)} cy={y(hv.v)} r="4" fill={SERIES} stroke="#17191C" strokeWidth="2" />
@@ -108,7 +109,7 @@ export function LineChart({ data, digits, unit, limit, timeFmt, height = 170 }: 
       {hv && hover !== null && (
         <div className="pointer-events-none absolute top-0 border border-line-ink bg-ink px-2.5 py-1.5 text-[12px] shadow-lg"
           style={{ left: Math.min(Math.max(x(hover) - 60, 0), w - 130) }}>
-          <p className="mono text-[13px] font-semibold text-white">{fmt(hv.v, digits)} <span className="text-[11px] font-normal text-on-ink-3">{unit}</span></p>
+          <p className="mono text-[13px] font-semibold text-white">{Number.isFinite(hv.v) ? fmt(hv.v, digits) : '정지 중'} <span className="text-[11px] font-normal text-on-ink-3">{unit}</span></p>
           <p className="text-on-ink-3">{timeFmt(hv.t)}</p>
         </div>
       )}
