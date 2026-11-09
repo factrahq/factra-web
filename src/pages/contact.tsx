@@ -3,7 +3,17 @@ import { Mail, Clock, MapPinned } from 'lucide-react'
 import Seo from '@/components/layout/Seo'
 import { company } from '@/lib/site'
 
-const topics = ['비전 검사 · 판독', 'UWB 위치추적 · 안전', '현장 진단', '기타']
+const topics = ['설비 데이터 수집', 'MES', '비전 검사 · 판독', 'UWB 위치추적 · 안전', '현장 진단', '기타']
+
+// 관심 분야마다 "있으면 더 빨라요" 안내를 바꾼다
+const hints: Record<string, string[]> = {
+  '설비 데이터 수집': ['라인 수와 설비 대수', '주요 설비의 제조사 · 모델 (명판 사진)', '지금 기록하는 방식 (수기 · 표시기 · 없음)'],
+  MES: ['지금 쓰는 방식 (엑셀 · 수기 · 기존 시스템)', '품목 수와 하루 작업지시 건수', '먼저 바꾸고 싶은 업무 (수주 · 재고 · 생산 · 품질)'],
+  '비전 검사 · 판독': ['검사·판독 대상 사진 (정상 / 불량)', '라인 속도 (분당 몇 개, 사이클 타임)', '지금 판정 방법과 연결된 설비 (PLC 기종 · MES 유무)'],
+  'UWB 위치추적 · 안전': ['통로 도면이나 배치 사진', '지게차 대수와 작업자 수', '사고·아차사고가 잦은 구역'],
+  '현장 진단': ['공장 위치와 라인 수', '가장 먼저 해결하고 싶은 문제'],
+  기타: ['지금 겪는 문제와 공정'],
+}
 
 // 정적 사이트라 서버가 없다 → 입력 내용으로 메일 작성 창을 연다.
 // TODO: 폼 수신 서비스(예: Formspree, 자체 API)가 정해지면 fetch 로 바꾼다.
@@ -50,9 +60,7 @@ export default function Contact() {
             <div className="mt-12 border border-line bg-paper-2 p-6">
               <p className="text-[15px] font-semibold">이런 것이 있으면 더 빨라요</p>
               <ul className="mt-3 space-y-1.5 text-[14px] text-fg-2">
-                <li>— 검사·판독 대상 사진 (정상 / 불량)</li>
-                <li>— 라인 속도 (분당 몇 개, 사이클 타임)</li>
-                <li>— 지금 판정 방법과 연결된 설비 (PLC·MES 유무)</li>
+                {hints[topic].map(h => <li key={h}>— {h}</li>)}
               </ul>
             </div>
           </div>

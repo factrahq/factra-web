@@ -63,6 +63,10 @@ export default function Process() {
               실측에서 확인하지 못한 것이 남으면 다시 방문하고, 시범 구축(PoC) 후 본 구축으로 넓힐 수 있습니다. 현장 실측 도구는{' '}
               <Link href="/field/" className="font-semibold text-fg underline underline-offset-4">Factra Field</Link>를 봐 주세요.
             </p>
+            <p className="mt-3 text-[14.5px] text-fg-2">
+              비전 검사는 보내 주신 정상·불량 사진으로 <b className="text-fg">샘플 시험</b>을 먼저 하고, 그 결과로 범위와 견적을 정합니다.{' '}
+              <Link href="/vision/" className="font-semibold text-fg underline underline-offset-4">Factra Vision</Link>을 봐 주세요.
+            </p>
           </FadeIn>
         </div>
       </section>
