@@ -61,7 +61,7 @@ export default function Platform() {
         desc="Factra Platform은 설비 데이터 수집·운영 플랫폼입니다. 엣지 게이트웨이로 설비를 잇고, 노코드로 데이터를 표준화하고, 그 위에서 설비·에너지·품질 앱과 AI를 바로 씁니다."
       >
         <Button href="/contact/">도입 상담</Button>
-        <Button href="/process/" variant="ghost-light">도입 절차 보기</Button>
+        <Button href="/platform/demo/" variant="ghost-light">데모 보기</Button>
       </PageHero>
 
       {/* 3층 구조 */}

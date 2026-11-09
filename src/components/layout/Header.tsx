@@ -6,7 +6,7 @@ import Logo from '@/components/ui/Logo'
 import { nav } from '@/lib/site'
 
 // 어두운 히어로가 있는 페이지는 맨 위에서 헤더를 투명하게 둔다
-const DARK_HERO = ['/', '/platform', '/mes', '/vision', '/rtls', '/field', '/process', '/cases', '/company']
+const DARK_HERO = ['/', '/platform', '/platform/demo', '/mes', '/vision', '/rtls', '/field', '/process', '/cases', '/company']
 
 export default function Header() {
   const router = useRouter()
@@ -28,12 +28,14 @@ export default function Header() {
 
   const path = router.pathname.replace(/\/$/, '') || '/'
   const transparent = DARK_HERO.includes(path) && !scrolled && !open
+  // 데모처럼 화면 전체가 어두운 페이지는 내려도 헤더를 어둡게 둔다
+  const darkApp = path === '/platform/demo'
   const dark = transparent || open
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        transparent ? 'bg-transparent text-white border-b border-white/10' : open ? 'bg-ink text-white' : 'bg-paper/85 backdrop-blur-md text-fg border-b border-line'
+        transparent ? 'bg-transparent text-white border-b border-white/10' : open ? 'bg-ink text-white' : darkApp ? 'bg-ink/90 backdrop-blur-md text-white border-b border-white/10' : 'bg-paper/85 backdrop-blur-md text-fg border-b border-line'
       }`}
     >
       <div className="wrap flex h-[68px] items-center justify-between">
