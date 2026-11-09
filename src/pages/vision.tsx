@@ -31,7 +31,7 @@ const uses = [
 ]
 
 const flow = [
-  { t: '트리거', d: 'PLC 레지스터 · 근접센서 · 주기 촬영' },
+  { t: '트리거', d: 'PLC 레지스터 · 근접센서 신호' },
   { t: '촬영', d: 'USB3 · GigE 산업용 카메라' },
   { t: 'AI 처리', d: '분할 · 임베딩 · 매칭 · 판독' },
   { t: '판정', d: 'OK / NG · 불량 종류 · 좌표' },
@@ -46,6 +46,22 @@ const features = [
   { icon: RotateCcw, t: '배포 · 즉시 롤백', d: '새 버전은 새 폴더에 설치하고 서비스 경로만 바꿉니다. 문제가 있으면 한 번에 되돌립니다.' },
   { icon: FlaskConical, t: '시험 모드', d: '가상 PLC·가상 MES·가상 센서로 라인 없이 전체 흐름을 돌려 봅니다. 설치 전 검증에 씁니다.' },
   { icon: WifiOff, t: '오프라인 운전', d: '판정은 모두 라인 옆 장비에서. 내부망만으로 동작하고, 장비 시계가 틀어지면 콘솔에서 바로 경고합니다.' },
+]
+
+const steps = [
+  { n: '01', t: '현장 확인', d: '공정과 설비 신호, 불량 샘플을 함께 봅니다. PLC 기종과 결과를 보낼 곳도 이때 확인합니다.' },
+  { n: '02', t: '샘플 시험', d: '보내 주신 정상·불량 사진으로 검사가 되는지 먼저 확인합니다. 기간과 비용은 이 결과를 보고 정합니다.' },
+  { n: '03', t: '설치 · 시운전', d: '가상 PLC·가상 장비로 미리 맞춰 두고, 현장에서는 연결과 확인만 합니다. 라인을 오래 세우지 않습니다.' },
+  { n: '04', t: '운영 · 개선', d: '쌓인 기록으로 판정 기준을 다듬고, 새 버전은 지난 기록으로 미리 검증한 뒤 배포합니다.' },
+]
+
+const prep = [
+  ['정상 · 불량 사진', '정상 수십 장, 불량은 종류별로 몇 장. 휴대폰 사진도 괜찮습니다'],
+  ['가장 작은 불량', '잡아야 하는 불량의 크기 (mm)'],
+  ['라인 속도', '한 개에 걸리는 시간, 멈춰서 찍는지 움직이는 중인지'],
+  ['설비 신호', 'PLC 유무와 제조사·기종, 센서'],
+  ['결과를 보낼 곳', 'PLC · MES · 경광등, 또는 기록만'],
+  ['사진 반출', '샘플 사진을 회사 밖으로 보낼 수 있는지'],
 ]
 
 const specs = [
@@ -149,6 +165,37 @@ export default function Vision() {
                 <div key={k} className="grid grid-cols-[120px_1fr] gap-4 border-b border-line py-5 md:grid-cols-[160px_1fr]">
                   <dt className="mono text-[13px] text-fg-3">{k}</dt>
                   <dd className="text-[15.5px]">{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </FadeIn>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap">
+          <SectionHead eyebrow="Process" title="샘플 시험부터 시작합니다." desc="설치를 정하기 전에, 보내 주신 사진으로 검사가 되는지 먼저 보여 드립니다." />
+          <div className="mt-16 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+            {steps.map((s, i) => (
+              <FadeIn key={s.n} delay={i * 0.08} className="bg-paper p-8">
+                <p className="mono text-[12px] text-signal">STEP {s.n}</p>
+                <h3 className="mt-8 text-[19px] font-bold tracking-[-0.02em]">{s.t}</h3>
+                <p className="mt-2.5 text-[14.5px] leading-relaxed text-fg-2">{s.d}</p>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section bg-paper-2">
+        <div className="wrap grid gap-14 lg:grid-cols-[1fr_1.2fr] lg:items-start">
+          <SectionHead eyebrow="Before you ask" title={<>상담 전에<br />준비해 주시면 좋은 것</>} desc="다 없어도 괜찮습니다. 사진만 먼저 보내 주셔도 가능 여부를 답드립니다." />
+          <FadeIn delay={0.1}>
+            <dl className="border-t-2 border-fg">
+              {prep.map(([k, v]) => (
+                <div key={k} className="grid grid-cols-[120px_1fr] gap-4 border-b border-line py-5 md:grid-cols-[160px_1fr]">
+                  <dt className="text-[15px] font-bold">{k}</dt>
+                  <dd className="text-[15px] text-fg-2">{v}</dd>
                 </div>
               ))}
             </dl>
