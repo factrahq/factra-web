@@ -45,7 +45,7 @@ const features = [
   { icon: Users, t: '담당자 화면', d: '신규 품목·라벨 템플릿 등록은 현장 담당자가 직접. “읽힌 값 복사” 방식으로 입력 실수를 줄였습니다.' },
   { icon: RotateCcw, t: '배포 · 즉시 롤백', d: '새 버전은 새 폴더에 설치하고 서비스 경로만 바꿉니다. 문제가 있으면 한 번에 되돌립니다.' },
   { icon: FlaskConical, t: '시험 모드', d: '가상 PLC·가상 MES·가상 센서로 라인 없이 전체 흐름을 돌려 봅니다. 설치 전 검증에 씁니다.' },
-  { icon: WifiOff, t: '오프라인 운전', d: '판정은 모두 라인 옆 장비에서. 내부망만으로 동작하고, 재부팅 후 시계·원격 접속까지 자동 복구합니다.' },
+  { icon: WifiOff, t: '오프라인 운전', d: '판정은 모두 라인 옆 장비에서. 내부망만으로 동작하고, 장비 시계가 틀어지면 콘솔에서 바로 경고합니다.' },
 ]
 
 const specs = [
@@ -119,7 +119,7 @@ export default function Vision() {
 
       <section className="section">
         <div className="wrap">
-          <SectionHead eyebrow="Platform" title={<>설치하고 끝이 아니라,<br />운영하기 좋게 만들었습니다.</>} desc="현장에서 실제로 겪은 문제 — 기록이 며칠 만에 지워지고, 배포 후 화면이 예전 것으로 보이고, 재부팅하면 시계가 틀어지는 일 — 를 플랫폼 기본 기능으로 해결했습니다." />
+          <SectionHead eyebrow="Platform" title={<>설치하고 끝이 아니라,<br />운영하기 좋게 만들었습니다.</>} desc="현장에서 실제로 겪은 문제 — 기록이 며칠 만에 지워지고, 배포 후 화면이 예전 것으로 보이고, 재부팅하면 시계가 틀어지는 일 — 를 플랫폼 기능과 설치 절차에 반영했습니다." />
           <div className="mt-16 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
             {features.map((f, i) => (
               <FadeIn key={f.t} delay={(i % 3) * 0.08} className="bg-paper p-8">
