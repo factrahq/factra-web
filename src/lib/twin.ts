@@ -1,24 +1,26 @@
 // Factra Twin (Unity 3D) 과 주고받는 데이터. 3D 화면은 /public/twin/ 의 Unity WebGL 빌드 (원본: factrahq/factra-twin).
-// 웹 → Unity: 설비 값(OnLive), RTLS 실측 좌표(OnTags), 선택(Select), 시점(SetView)
-// Unity → 웹: window.factraTwin.onEvent(e) — ready · select · proximity · zone · tags
+// 배치는 Unity 빌드 안의 기본 현장 패키지(site.json)로 그린다 — 2D 배치도(demo-factory.ts)와 같은 파일
+// 웹 → Unity: 현장 패키지(LoadSite), 설비 값(OnLive), RTLS 실측 좌표(OnTags), 선택(Select), 시점(SetView)
+// Unity → 웹: window.factraTwin.onEvent(e) — site · ready · select · proximity · zone · tags
 import { machines, isAlarm, fmt, type Live } from './demo-factory'
 
 export const TWIN_BUILD = '/twin/Build/twin'
-export const TWIN_SIZE_MB = 5.2 // 3D 빌드 내려받기 크기 (MB, 압축 기준) — Unity 빌드 후 갱신
+export const TWIN_SIZE_MB = 5.4 // 3D 빌드 내려받기 크기 (MB, 압축 기준) — Unity 빌드 후 갱신
 // Unity 압축(Gzip) + 해제 대체(decompressionFallback): GitHub Pages 가 Content-Encoding 을 못 붙여 로더가 직접 푼다
 export const TWIN_FILES = { data: '.data.unityweb', framework: '.framework.js.unityweb', code: '.wasm.unityweb' }
 
-export type TagKind = 'forklift' | 'cart' | 'worker'
+export type TagKind = 'forklift' | 'cart' | 'worker' | 'asset'
 export type TwinTag = { id: string; kind: TagKind; x: number; y: number; level: 0 | 1 | 2; restricted: boolean; external: boolean }
 
 export type TwinEvent =
+  | { type: 'site'; ok: boolean; id: string; title: string; source: string; machines: number; tags: number; errors: string[]; warnings: string[] }
   | { type: 'ready' }
   | { type: 'select'; kind: 'machine' | 'tag' | 'none'; id: string }
   | { type: 'proximity'; a: string; b: string; d: number }
   | { type: 'zone'; id: string; zone: string }
   | { type: 'tags'; tags: TwinTag[] }
 
-export const kindLabel: Record<TagKind, string> = { forklift: '지게차', cart: '대차', worker: '작업자' }
+export const kindLabel: Record<TagKind, string> = { forklift: '지게차', cart: '대차', worker: '작업자', asset: '자산' }
 
 // 태그 → 사람이 읽는 이름 (가상 데이터)
 export const tagInfo: Record<string, { name: string; sub: string }> = {

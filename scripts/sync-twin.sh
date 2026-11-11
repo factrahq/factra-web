@@ -1,11 +1,14 @@
 #!/bin/sh
-# Unity WebGL 빌드(factra-twin)를 사이트 public/twin/Build 로 복사한다.
+# Unity WebGL 빌드(factra-twin)를 사이트 public/twin/Build 로, 데모 공장 배치(site.json)를 src/lib/demo-site.json 으로 복사한다.
+# 배치는 3D·2D 배치도가 같은 파일을 쓴다 — 원본은 factra-twin/samples/demo-factory-a/site.json (여기서 고치지 않는다)
 #   1) factra-twin 에서: Unity -batchmode -quit -projectPath . -buildTarget WebGL -executeMethod FactraTwin.EditorTools.TwinSetup.BuildAll
 #   2) 여기서: sh scripts/sync-twin.sh [factra-twin 경로]
 set -e
-SRC="${1:-../factra-twin}/Build/twin/Build"
+TWIN="${1:-../factra-twin}"
+SRC="$TWIN/Build/twin/Build"
 DST="public/twin/Build"
 [ -f "$SRC/twin.loader.js" ] || { echo "빌드가 없습니다: $SRC"; exit 1; }
 rm -rf "$DST" && mkdir -p "$DST"
 cp "$SRC"/twin.loader.js "$SRC"/twin.data.unityweb "$SRC"/twin.framework.js.unityweb "$SRC"/twin.wasm.unityweb "$DST"/
 du -ch "$DST"/* | tail -1
+cp "$TWIN/samples/demo-factory-a/site.json" src/lib/demo-site.json && echo "site.json → src/lib/demo-site.json"
