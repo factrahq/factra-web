@@ -13,15 +13,6 @@ const principles = [
   { t: '운영까지 책임진다', d: '설치가 끝이 아닙니다. 원격 배포·롤백·기록 재생으로 돌아가는 동안 계속 다듬습니다.' },
 ]
 
-const history = [
-  { d: '2026. 07', t: 'FACTRA 출범', s: '제조 DX·AX 전환 브랜드 기획 · 첫 현장 준비' },
-  { d: '2026. 09', t: '화학소재(접착제) 제조 현장 — 제조AI특화 스마트공장 착수', s: '4개 라인 킥오프 · 1차 현장 실측' },
-  { d: '2026. 10', t: '전자부품 제조 현장 — 릴 라벨 비전 시스템 가동', s: '25MP 2-카메라, PLC·MES 연동, 로봇 라벨 부착 라인' },
-  { d: '2026. 10', t: '화학소재 제조 현장 — 설비 데이터 수집 설계', s: '91대 기기 · 163 데이터 포인트 · 게이트웨이 9대' },
-  { d: '2026. 11', t: 'Factra Vision 플랫폼 분리', s: '현장 비전 시스템을 범용 플랫폼으로 분리 · 공장별 앱 구조 확립' },
-  { d: '2026. 11', t: 'Factra Field · Factra RTLS 개발 착수', s: '현장 실측 플랫폼, UWB 접근 경보·위치추적 하드웨어' },
-]
-
 const team = [
   { t: '설비 데이터 · IIoT', d: '실측, 수집 설계, 게이트웨이 결선, 플랫폼 활성화' },
   { t: '비전 · AI', d: '카메라·조명 구성, 분할·매칭·판독 모델 학습' },
@@ -91,24 +82,6 @@ export default function Company() {
         </div>
       </section>
 
-      <section className="section">
-        <div className="wrap grid gap-14 lg:grid-cols-[1fr_1.3fr]">
-          <SectionHead eyebrow="History" title="연혁" />
-          <FadeIn delay={0.1}>
-            <ol className="border-t-2 border-fg">
-              {history.map(h => (
-                <li key={h.t} className="grid grid-cols-[90px_1fr] gap-6 border-b border-line py-6 md:grid-cols-[120px_1fr]">
-                  <span className="mono text-[14px] text-fg-3">{h.d}</span>
-                  <div>
-                    <p className="text-[17px] font-semibold">{h.t}</p>
-                    <p className="mt-1 text-[14.5px] text-fg-2">{h.s}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </FadeIn>
-        </div>
-      </section>
 
       <section className="section bg-paper-2">
         <div className="wrap grid gap-14 lg:grid-cols-2 lg:items-center">

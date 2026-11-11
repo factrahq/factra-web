@@ -8,7 +8,7 @@ export const company = {
   bizNo: '',
   address: '',
   phone: '',
-  email: 'contact@factra.kr', // TODO: 메일함 개설 확인
+  email: 'contact@factra.kr', // ImprovMX 무료 전달 → cto@matchesplan.com (2026-11-11 설정)
   domain: 'factra.kr',
   url: 'https://factra.kr',
   github: 'https://github.com/factrahq',
