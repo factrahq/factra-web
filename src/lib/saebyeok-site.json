@@ -1,0 +1,1574 @@
+{
+  "schema": "factra-twin/site@1",
+  "site": {
+    "id": "2026-11-virtual-saebyeok",
+    "title": "새벽정밀(가상) 화성 1공장",
+    "measuredAt": "2026-11-11",
+    "measuredBy": [
+      "연습"
+    ],
+    "accuracy": "L2",
+    "notes": "연습용 가상 고객(실제 회사와 무관). 고객 도면(2024.03, 스캔 0.7° 기울어짐)으로 방문 전 초안 → 현장 기록지로 위치 확정. sim 경로는 시연용 가상."
+  },
+  "origin": {
+    "desc": "1층 북서쪽 안쪽 모서리 (X1·A 기둥 안쪽)",
+    "photo": null
+  },
+  "plan": {
+    "image": "plan/plan.png",
+    "calib": [
+      {
+        "px": [
+          152,
+          168
+        ],
+        "m": [
+          0,
+          0
+        ]
+      },
+      {
+        "px": [
+          1472,
+          152
+        ],
+        "m": [
+          60,
+          0
+        ]
+      },
+      {
+        "px": [
+          162,
+          960
+        ],
+        "m": [
+          0,
+          36
+        ]
+      }
+    ]
+  },
+  "building": {
+    "outline": [
+      [
+        0,
+        0
+      ],
+      [
+        60,
+        0
+      ],
+      [
+        60,
+        36
+      ],
+      [
+        0,
+        36
+      ]
+    ],
+    "height": 9,
+    "wallThickness": 0.25,
+    "columns": [
+      {
+        "id": "A1",
+        "x": 0,
+        "y": 0,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "B1",
+        "x": 0,
+        "y": 12,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "C1",
+        "x": 0,
+        "y": 24,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "D1",
+        "x": 0,
+        "y": 36,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "A2",
+        "x": 10,
+        "y": 0,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "B2",
+        "x": 10,
+        "y": 12,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "C2",
+        "x": 10,
+        "y": 24,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "D2",
+        "x": 10,
+        "y": 36,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "A3",
+        "x": 20,
+        "y": 0,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "B3",
+        "x": 20,
+        "y": 12,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "C3",
+        "x": 20,
+        "y": 24,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "D3",
+        "x": 20,
+        "y": 36,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "A4",
+        "x": 30,
+        "y": 0,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "B4",
+        "x": 30,
+        "y": 12,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "C4",
+        "x": 30,
+        "y": 24,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "D4",
+        "x": 30,
+        "y": 36,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "A5",
+        "x": 40,
+        "y": 0,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "B5",
+        "x": 40,
+        "y": 12,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "C5",
+        "x": 40,
+        "y": 24,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "D5",
+        "x": 40,
+        "y": 36,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "A6",
+        "x": 50,
+        "y": 0,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "B6",
+        "x": 50,
+        "y": 12,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "C6",
+        "x": 50,
+        "y": 24,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "D6",
+        "x": 50,
+        "y": 36,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "A7",
+        "x": 60,
+        "y": 0,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "B7",
+        "x": 60,
+        "y": 12,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "C7",
+        "x": 60,
+        "y": 24,
+        "w": 0.45,
+        "d": 0.45
+      },
+      {
+        "id": "D7",
+        "x": 60,
+        "y": 36,
+        "w": 0.45,
+        "d": 0.45
+      }
+    ],
+    "openings": [
+      {
+        "id": "d1",
+        "kind": "shutter",
+        "at": [
+          [
+            40,
+            36
+          ],
+          [
+            45,
+            36
+          ]
+        ],
+        "height": 4.5
+      },
+      {
+        "id": "d2",
+        "kind": "shutter",
+        "at": [
+          [
+            52,
+            36
+          ],
+          [
+            56,
+            36
+          ]
+        ],
+        "height": 4.5
+      },
+      {
+        "id": "d3",
+        "kind": "door",
+        "at": [
+          [
+            0,
+            16
+          ],
+          [
+            0,
+            17.5
+          ]
+        ],
+        "height": 2.2
+      }
+    ],
+    "grid": {
+      "x": [
+        0,
+        10,
+        20,
+        30,
+        40,
+        50,
+        60
+      ],
+      "y": [
+        0,
+        12,
+        24,
+        36
+      ],
+      "labelsX": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "labelsY": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    }
+  },
+  "zones": [
+    {
+      "id": "machining",
+      "name": "가공동",
+      "label": "MACHINING",
+      "kind": "work",
+      "polygon": [
+        [
+          1,
+          1
+        ],
+        [
+          28,
+          1
+        ],
+        [
+          28,
+          11
+        ],
+        [
+          1,
+          11
+        ]
+      ]
+    },
+    {
+      "id": "press",
+      "name": "프레스",
+      "label": "PRESS",
+      "kind": "work",
+      "polygon": [
+        [
+          32,
+          1
+        ],
+        [
+          46,
+          1
+        ],
+        [
+          46,
+          11
+        ],
+        [
+          32,
+          11
+        ]
+      ]
+    },
+    {
+      "id": "utility",
+      "name": "유틸리티",
+      "label": "UTILITY",
+      "kind": "work",
+      "polygon": [
+        [
+          47,
+          1
+        ],
+        [
+          59,
+          1
+        ],
+        [
+          59,
+          7
+        ],
+        [
+          47,
+          7
+        ]
+      ]
+    },
+    {
+      "id": "power-room",
+      "name": "수배전실",
+      "label": "POWER ROOM",
+      "kind": "restricted",
+      "polygon": [
+        [
+          47,
+          8
+        ],
+        [
+          59,
+          8
+        ],
+        [
+          59,
+          11
+        ],
+        [
+          47,
+          11
+        ]
+      ]
+    },
+    {
+      "id": "assembly",
+      "name": "조립 라인",
+      "label": "ASSEMBLY",
+      "kind": "work",
+      "polygon": [
+        [
+          1,
+          15
+        ],
+        [
+          28,
+          15
+        ],
+        [
+          28,
+          22.8
+        ],
+        [
+          1,
+          22.8
+        ]
+      ]
+    },
+    {
+      "id": "shipping",
+      "name": "출하장",
+      "label": "SHIPPING",
+      "kind": "storage",
+      "polygon": [
+        [
+          32,
+          15
+        ],
+        [
+          59,
+          15
+        ],
+        [
+          59,
+          22.8
+        ],
+        [
+          32,
+          22.8
+        ]
+      ]
+    },
+    {
+      "id": "weld-1",
+      "name": "용접 셀 1",
+      "label": "WELD 1",
+      "kind": "restricted",
+      "polygon": [
+        [
+          1.5,
+          26.5
+        ],
+        [
+          7.5,
+          26.5
+        ],
+        [
+          7.5,
+          34.5
+        ],
+        [
+          1.5,
+          34.5
+        ]
+      ]
+    },
+    {
+      "id": "weld-2",
+      "name": "용접 셀 2",
+      "label": "WELD 2",
+      "kind": "restricted",
+      "polygon": [
+        [
+          9.5,
+          26.5
+        ],
+        [
+          15.5,
+          26.5
+        ],
+        [
+          15.5,
+          34.5
+        ],
+        [
+          9.5,
+          34.5
+        ]
+      ]
+    },
+    {
+      "id": "office",
+      "name": "사무실·QC",
+      "label": "OFFICE",
+      "kind": "office",
+      "polygon": [
+        [
+          18,
+          26
+        ],
+        [
+          28,
+          26
+        ],
+        [
+          28,
+          35
+        ],
+        [
+          18,
+          35
+        ]
+      ]
+    },
+    {
+      "id": "store",
+      "name": "자재 창고",
+      "label": "STORE",
+      "kind": "storage",
+      "polygon": [
+        [
+          32,
+          26
+        ],
+        [
+          59,
+          26
+        ],
+        [
+          59,
+          35
+        ],
+        [
+          32,
+          35
+        ]
+      ]
+    }
+  ],
+  "aisles": [
+    {
+      "id": "a-main",
+      "line": [
+        [
+          0,
+          12.9
+        ],
+        [
+          60,
+          12.9
+        ]
+      ],
+      "width": 3
+    },
+    {
+      "id": "a-cross",
+      "line": [
+        [
+          30,
+          0
+        ],
+        [
+          30,
+          36
+        ]
+      ],
+      "width": 3
+    },
+    {
+      "id": "a-south",
+      "line": [
+        [
+          0,
+          24.6
+        ],
+        [
+          60,
+          24.6
+        ]
+      ],
+      "width": 2.4
+    }
+  ],
+  "machines": [
+    {
+      "tag": "CNC-01",
+      "name": "CNC 선반 1호",
+      "kind": "lathe",
+      "zone": "machining",
+      "h": 2,
+      "rot": 359.8,
+      "maker": "화천",
+      "model": "Hi-TECH 230",
+      "year": 2019,
+      "photos": [],
+      "confidence": "measured",
+      "id": "cnc-01",
+      "x": 3.5,
+      "y": 3.18,
+      "w": 3.22,
+      "d": 2.2
+    },
+    {
+      "tag": "CNC-02",
+      "name": "CNC 선반 2호",
+      "kind": "lathe",
+      "zone": "machining",
+      "h": 2,
+      "rot": 0,
+      "maker": "화천",
+      "model": "Hi-TECH 230",
+      "year": 2019,
+      "photos": [],
+      "confidence": "measured",
+      "id": "cnc-02",
+      "x": 7.97,
+      "y": 3.22,
+      "w": 3.2,
+      "d": 2.17
+    },
+    {
+      "tag": "CNC-03",
+      "name": "CNC 선반 3호",
+      "kind": "lathe",
+      "zone": "machining",
+      "h": 2,
+      "rot": 359.3,
+      "maker": "두산",
+      "model": "Lynx 2100",
+      "year": 2021,
+      "photos": [],
+      "confidence": "measured",
+      "id": "cnc-03",
+      "x": 12.48,
+      "y": 3.2,
+      "w": 3.18,
+      "d": 2.21
+    },
+    {
+      "tag": "CNC-04",
+      "name": "CNC 선반 4호",
+      "kind": "lathe",
+      "zone": "machining",
+      "h": 2,
+      "rot": 359.6,
+      "maker": "두산",
+      "model": "Lynx 2100",
+      "year": 2021,
+      "photos": [],
+      "confidence": "measured",
+      "id": "cnc-04",
+      "x": 17.01,
+      "y": 3.17,
+      "w": 3.23,
+      "d": 2.22
+    },
+    {
+      "tag": "MCT-01",
+      "name": "머시닝센터 1호",
+      "kind": "machining",
+      "zone": "machining",
+      "h": 2.8,
+      "rot": 0.6,
+      "maker": "현대위아",
+      "model": "F500",
+      "year": 2020,
+      "photos": [],
+      "confidence": "measured",
+      "id": "mct-01",
+      "x": 21.6,
+      "y": 3.41,
+      "w": 3.61,
+      "d": 2.78
+    },
+    {
+      "tag": "MCT-02",
+      "name": "머시닝센터 2호",
+      "kind": "machining",
+      "zone": "machining",
+      "h": 2.8,
+      "rot": 359.7,
+      "maker": "현대위아",
+      "model": "F500",
+      "year": 2022,
+      "photos": [],
+      "confidence": "measured",
+      "id": "mct-02",
+      "x": 25.6,
+      "y": 3.4,
+      "w": 3.59,
+      "d": 2.77
+    },
+    {
+      "tag": "CNC-05",
+      "name": "CNC 선반 5호",
+      "kind": "lathe",
+      "zone": "machining",
+      "h": 2,
+      "rot": 0.2,
+      "maker": "화천",
+      "model": "Hi-TECH 230",
+      "year": 2017,
+      "photos": [],
+      "confidence": "measured",
+      "id": "cnc-05",
+      "x": 5,
+      "y": 8.61,
+      "w": 3.18,
+      "d": 2.2
+    },
+    {
+      "tag": "CNC-06",
+      "name": "CNC 선반 6호",
+      "kind": "lathe",
+      "zone": "machining",
+      "h": 2,
+      "rot": 359.8,
+      "maker": "화천",
+      "model": "Hi-TECH 230",
+      "year": 2017,
+      "photos": [],
+      "confidence": "measured",
+      "id": "cnc-06",
+      "x": 19.5,
+      "y": 8.61,
+      "w": 3.16,
+      "d": 2.2
+    },
+    {
+      "tag": "PR-01",
+      "name": "프레스 300톤",
+      "kind": "press",
+      "zone": "press",
+      "h": 4.8,
+      "rot": 0.1,
+      "maker": "심팩",
+      "model": "SPS-300",
+      "year": 2016,
+      "photos": [],
+      "confidence": "estimated",
+      "id": "pr-01",
+      "x": 35.48,
+      "y": 5.6,
+      "w": 4.49,
+      "d": 4.02
+    },
+    {
+      "tag": "PR-02",
+      "name": "프레스 150톤",
+      "kind": "press",
+      "zone": "press",
+      "h": 3.8,
+      "rot": 0.3,
+      "maker": "심팩",
+      "model": "SPS-150",
+      "year": 2018,
+      "photos": [],
+      "confidence": "measured",
+      "id": "pr-02",
+      "x": 41.52,
+      "y": 5.8,
+      "w": 3.59,
+      "d": 3.2
+    },
+    {
+      "tag": "AC-01",
+      "name": "공기압축기 1호",
+      "kind": "compressor",
+      "zone": "utility",
+      "h": 1.8,
+      "rot": 359.4,
+      "maker": "한신",
+      "model": "HSV-37",
+      "year": 2020,
+      "photos": [],
+      "confidence": "measured",
+      "id": "ac-01",
+      "x": 49.5,
+      "y": 3.04,
+      "w": 1.98,
+      "d": 1.37
+    },
+    {
+      "tag": "AC-02",
+      "name": "공기압축기 2호",
+      "kind": "compressor",
+      "zone": "utility",
+      "h": 1.8,
+      "rot": 358.9,
+      "maker": "한신",
+      "model": "HSV-37",
+      "year": 2020,
+      "photos": [],
+      "confidence": "measured",
+      "id": "ac-02",
+      "x": 52.5,
+      "y": 3.02,
+      "w": 2.01,
+      "d": 1.39
+    },
+    {
+      "tag": "CH-01",
+      "name": "냉각기(칠러)",
+      "kind": "chiller",
+      "zone": "utility",
+      "h": 1.9,
+      "rot": 359.5,
+      "maker": "",
+      "model": "",
+      "year": 2021,
+      "photos": [],
+      "confidence": "measured",
+      "id": "ch-01",
+      "x": 56.57,
+      "y": 3.01,
+      "w": 2.41,
+      "d": 1.17
+    },
+    {
+      "tag": "PNL-01",
+      "name": "수배전반",
+      "kind": "panel",
+      "zone": "power-room",
+      "h": 2.2,
+      "rot": 0.4,
+      "maker": "",
+      "model": "",
+      "year": 2015,
+      "photos": [],
+      "confidence": "measured",
+      "id": "pnl-01",
+      "x": 52.99,
+      "y": 9.62,
+      "w": 6.01,
+      "d": 0.77
+    },
+    {
+      "tag": "CV-01",
+      "name": "조립 컨베이어",
+      "kind": "conveyor",
+      "zone": "assembly",
+      "h": 0.9,
+      "rot": 0,
+      "maker": "",
+      "model": "",
+      "year": 2022,
+      "photos": [],
+      "confidence": "measured",
+      "id": "cv-01",
+      "x": 14.01,
+      "y": 17.43,
+      "w": 20.02,
+      "d": 0.99
+    },
+    {
+      "tag": "TB-01",
+      "name": "조립 작업대 1",
+      "kind": "table",
+      "zone": "assembly",
+      "h": 0.9,
+      "rot": 181.3,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "tb-01",
+      "x": 7,
+      "y": 19.59,
+      "w": 1.76,
+      "d": 0.88
+    },
+    {
+      "tag": "TB-02",
+      "name": "조립 작업대 2",
+      "kind": "table",
+      "zone": "assembly",
+      "h": 0.9,
+      "rot": 180.3,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "tb-02",
+      "x": 10.99,
+      "y": 19.58,
+      "w": 1.77,
+      "d": 0.87
+    },
+    {
+      "tag": "TB-03",
+      "name": "조립 작업대 3",
+      "kind": "table",
+      "zone": "assembly",
+      "h": 0.9,
+      "rot": 179.7,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "tb-03",
+      "x": 15.01,
+      "y": 19.6,
+      "w": 1.76,
+      "d": 0.9
+    },
+    {
+      "tag": "TB-04",
+      "name": "조립 작업대 4",
+      "kind": "table",
+      "zone": "assembly",
+      "h": 0.9,
+      "rot": 178.4,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "tb-04",
+      "x": 19.03,
+      "y": 19.6,
+      "w": 1.79,
+      "d": 0.92
+    },
+    {
+      "tag": "RB-01",
+      "name": "용접 로봇 셀 1",
+      "kind": "robot",
+      "zone": "weld-1",
+      "h": 2.2,
+      "rot": 180.1,
+      "maker": "현대로보틱스",
+      "model": "HH020",
+      "year": 2023,
+      "photos": [],
+      "confidence": "measured",
+      "id": "rb-01",
+      "x": 4.48,
+      "y": 30.46,
+      "w": 5.99,
+      "d": 7.97
+    },
+    {
+      "tag": "RB-02",
+      "name": "용접 로봇 셀 2",
+      "kind": "robot",
+      "zone": "weld-2",
+      "h": 2.2,
+      "rot": 179.7,
+      "maker": "현대로보틱스",
+      "model": "HH020",
+      "year": 2025,
+      "photos": [],
+      "confidence": "measured",
+      "id": "rb-02",
+      "x": 12.5,
+      "y": 30.51,
+      "w": 6.01,
+      "d": 8.01
+    },
+    {
+      "tag": "RK-01",
+      "name": "자재 랙 1",
+      "kind": "rack",
+      "zone": "store",
+      "h": 4.5,
+      "rot": 180.1,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "rk-01",
+      "x": 34.99,
+      "y": 26.99,
+      "w": 5.4,
+      "d": 1.12
+    },
+    {
+      "tag": "RK-02",
+      "name": "자재 랙 2",
+      "kind": "rack",
+      "zone": "store",
+      "h": 4.5,
+      "rot": 180.2,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "rk-02",
+      "x": 40.99,
+      "y": 26.98,
+      "w": 5.42,
+      "d": 1.09
+    },
+    {
+      "tag": "RK-03",
+      "name": "자재 랙 3",
+      "kind": "rack",
+      "zone": "store",
+      "h": 4.5,
+      "rot": 179.5,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "rk-03",
+      "x": 47,
+      "y": 27,
+      "w": 5.45,
+      "d": 1.1
+    },
+    {
+      "tag": "RK-04",
+      "name": "자재 랙 4",
+      "kind": "rack",
+      "zone": "store",
+      "h": 4.5,
+      "rot": 179.4,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "rk-04",
+      "x": 53.01,
+      "y": 27.01,
+      "w": 5.4,
+      "d": 1.12
+    },
+    {
+      "tag": "RK-05",
+      "name": "자재 랙 5",
+      "kind": "rack",
+      "zone": "store",
+      "h": 4.5,
+      "rot": 179.7,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "rk-05",
+      "x": 34.99,
+      "y": 33.8,
+      "w": 5.41,
+      "d": 1.1
+    },
+    {
+      "tag": "RK-06",
+      "name": "자재 랙 6",
+      "kind": "rack",
+      "zone": "store",
+      "h": 4.5,
+      "rot": 179.5,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "rk-06",
+      "x": 41.01,
+      "y": 33.81,
+      "w": 5.37,
+      "d": 1.12
+    },
+    {
+      "tag": "RK-07",
+      "name": "자재 랙 7",
+      "kind": "rack",
+      "zone": "store",
+      "h": 4.5,
+      "rot": 180.1,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "rk-07",
+      "x": 47,
+      "y": 33.8,
+      "w": 5.44,
+      "d": 1.09
+    },
+    {
+      "tag": "RK-08",
+      "name": "자재 랙 8",
+      "kind": "rack",
+      "zone": "store",
+      "h": 4.5,
+      "rot": 179.8,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "rk-08",
+      "x": 52.98,
+      "y": 33.81,
+      "w": 5.38,
+      "d": 1.13
+    },
+    {
+      "tag": "PL-01",
+      "name": "출하 대기 1",
+      "kind": "pallet",
+      "zone": "shipping",
+      "h": 1.2,
+      "rot": 359.4,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "pl-01",
+      "x": 36.02,
+      "y": 19.02,
+      "w": 3.6,
+      "d": 2.38
+    },
+    {
+      "tag": "PL-02",
+      "name": "출하 대기 2",
+      "kind": "pallet",
+      "zone": "shipping",
+      "h": 1.2,
+      "rot": 0.6,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "pl-02",
+      "x": 42.01,
+      "y": 18.99,
+      "w": 3.63,
+      "d": 2.42
+    },
+    {
+      "tag": "PL-03",
+      "name": "출하 대기 3",
+      "kind": "pallet",
+      "zone": "shipping",
+      "h": 1.2,
+      "rot": 359.8,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "pl-03",
+      "x": 47.99,
+      "y": 19.01,
+      "w": 3.57,
+      "d": 2.42
+    },
+    {
+      "tag": "QC-01",
+      "name": "측정 검사대",
+      "kind": "table",
+      "zone": "machining",
+      "h": 0.9,
+      "rot": 359.8,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "qc-01",
+      "x": 11.52,
+      "y": 8.79,
+      "w": 2.42,
+      "d": 1.2
+    },
+    {
+      "tag": "OV-01",
+      "name": "건조로",
+      "kind": "oven",
+      "zone": "assembly",
+      "h": 2.4,
+      "rot": 0.3,
+      "maker": "",
+      "model": "",
+      "year": null,
+      "photos": [],
+      "confidence": "measured",
+      "id": "ov-01",
+      "x": 25.49,
+      "y": 18.62,
+      "w": 3.99,
+      "d": 2.47
+    }
+  ],
+  "anchors": [
+    {
+      "id": "AN-01",
+      "x": 0.27,
+      "y": 0.25,
+      "z": 4.48,
+      "mount": "X1·A 기둥"
+    },
+    {
+      "id": "AN-02",
+      "x": 30.02,
+      "y": 0.24,
+      "z": 4.52,
+      "mount": "X4·A 기둥"
+    },
+    {
+      "id": "AN-03",
+      "x": 59.78,
+      "y": 0.24,
+      "z": 4.49,
+      "mount": "X7·A 기둥"
+    },
+    {
+      "id": "AN-04",
+      "x": 59.78,
+      "y": 18.01,
+      "z": 4.48,
+      "mount": "X7·B–C 사이 벽"
+    },
+    {
+      "id": "AN-05",
+      "x": 59.73,
+      "y": 35.73,
+      "z": 4.52,
+      "mount": "X7·D 기둥"
+    },
+    {
+      "id": "AN-06",
+      "x": 30.02,
+      "y": 35.73,
+      "z": 4.52,
+      "mount": "X4·D 기둥"
+    },
+    {
+      "id": "AN-07",
+      "x": 0.28,
+      "y": 35.76,
+      "z": 4.49,
+      "mount": "X1·D 기둥"
+    },
+    {
+      "id": "AN-08",
+      "x": 0.25,
+      "y": 17.98,
+      "z": 4.47,
+      "mount": "X1·B–C 사이 벽"
+    },
+    {
+      "id": "AN-09",
+      "x": 20.03,
+      "y": 12.26,
+      "z": 4.5,
+      "mount": "X3·B 기둥"
+    },
+    {
+      "id": "AN-10",
+      "x": 40.03,
+      "y": 23.75,
+      "z": 4.52,
+      "mount": "X5·C 기둥"
+    }
+  ],
+  "tags": [
+    {
+      "id": "FL-01",
+      "kind": "forklift",
+      "name": "지게차 1호"
+    },
+    {
+      "id": "FL-02",
+      "kind": "forklift",
+      "name": "지게차 2호"
+    },
+    {
+      "id": "W-01",
+      "kind": "worker",
+      "name": "작업자 A (가공 반)"
+    },
+    {
+      "id": "W-02",
+      "kind": "worker",
+      "name": "작업자 B (조립·보전)"
+    },
+    {
+      "id": "W-03",
+      "kind": "worker",
+      "name": "작업자 C (창고)"
+    }
+  ],
+  "rules": {
+    "proximity": [
+      {
+        "a": "forklift",
+        "b": "worker",
+        "alertM": 3,
+        "cautionM": 5
+      }
+    ],
+    "restricted": [
+      "power-room",
+      "weld-1",
+      "weld-2"
+    ]
+  },
+  "sim": {
+    "agents": [
+      {
+        "tag": "FL-01",
+        "speed": 2.0,
+        "route": [
+          [
+            31,
+            34,
+            3
+          ],
+          [
+            31,
+            24.6,
+            0
+          ],
+          [
+            34,
+            24.6,
+            2
+          ],
+          [
+            31,
+            24.6,
+            0
+          ],
+          [
+            31,
+            12.9,
+            0
+          ],
+          [
+            36,
+            12.9,
+            4
+          ],
+          [
+            31,
+            12.9,
+            0
+          ],
+          [
+            31,
+            24.6,
+            0
+          ]
+        ]
+      },
+      {
+        "tag": "FL-02",
+        "speed": 1.8,
+        "route": [
+          [
+            38,
+            23.2,
+            4
+          ],
+          [
+            57,
+            23.2,
+            0
+          ],
+          [
+            57,
+            24.6,
+            0
+          ],
+          [
+            45,
+            24.6,
+            3
+          ],
+          [
+            38,
+            24.6,
+            0
+          ]
+        ]
+      },
+      {
+        "tag": "W-01",
+        "speed": 1.0,
+        "route": [
+          [
+            6,
+            11.2,
+            5
+          ],
+          [
+            18,
+            11.2,
+            3
+          ],
+          [
+            18,
+            12.9,
+            0
+          ],
+          [
+            29,
+            12.9,
+            0
+          ],
+          [
+            29,
+            11.2,
+            4
+          ],
+          [
+            18,
+            11.2,
+            0
+          ]
+        ]
+      },
+      {
+        "tag": "W-02",
+        "speed": 0.9,
+        "route": [
+          [
+            8,
+            20.8,
+            6
+          ],
+          [
+            18,
+            20.8,
+            4
+          ],
+          [
+            18,
+            23.6,
+            0
+          ],
+          [
+            12.5,
+            24.6,
+            0
+          ],
+          [
+            12.5,
+            27.6,
+            6
+          ],
+          [
+            12.5,
+            24.6,
+            0
+          ],
+          [
+            18,
+            23.6,
+            0
+          ],
+          [
+            23,
+            20.8,
+            3
+          ],
+          [
+            18,
+            20.8,
+            0
+          ]
+        ]
+      },
+      {
+        "tag": "W-03",
+        "speed": 1.0,
+        "route": [
+          [
+            33,
+            30.4,
+            5
+          ],
+          [
+            44,
+            30.4,
+            4
+          ],
+          [
+            56,
+            30.4,
+            3
+          ],
+          [
+            44,
+            30.4,
+            0
+          ],
+          [
+            31.2,
+            30.4,
+            2
+          ],
+          [
+            31.2,
+            24.6,
+            4
+          ],
+          [
+            33,
+            30.4,
+            0
+          ]
+        ]
+      }
+    ]
+  }
+}

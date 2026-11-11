@@ -12,3 +12,7 @@ rm -rf "$DST" && mkdir -p "$DST"
 cp "$SRC"/twin.loader.js "$SRC"/twin.data.unityweb "$SRC"/twin.framework.js.unityweb "$SRC"/twin.wasm.unityweb "$DST"/
 du -ch "$DST"/* | tail -1
 cp "$TWIN/site-format/samples/demo-factory-a/site.json" src/lib/demo-site.json && echo "site.json → src/lib/demo-site.json"
+# /twin 페이지 3D = 새벽정밀(가상) 공장: Unity 가 내려받는 public 사본 + 설비 목록을 읽는 src 사본
+mkdir -p public/twin/sites
+cp "$TWIN/site-format/samples/virtual-saebyeok/site.json" public/twin/sites/virtual-saebyeok.json
+cp "$TWIN/site-format/samples/virtual-saebyeok/site.json" src/lib/saebyeok-site.json && echo "virtual-saebyeok → public/twin/sites, src/lib/saebyeok-site.json"

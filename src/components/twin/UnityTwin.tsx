@@ -6,7 +6,7 @@ type UnityInstance = { SendMessage: (obj: string, method: string, arg?: string |
 declare global {
   interface Window {
     createUnityInstance?: (canvas: HTMLCanvasElement, config: Record<string, unknown>, onProgress?: (p: number) => void) => Promise<UnityInstance>
-    factraTwin?: { onEvent: (e: TwinEvent) => void }
+    factraTwin?: { onEvent: (e: TwinEvent) => void; siteUrl?: string }
   }
 }
 
@@ -36,7 +36,8 @@ function webglOk() {
  * Unity WebGL 3D 트윈. live(JSON 문자열)가 바뀔 때마다 설비 값을 보낸다.
  * PC(폭 860px 이상)는 바로 불러오고, 휴대폰은 버튼을 눌러야 불러온다 (데이터 절약).
  */
-const UnityTwin = forwardRef<TwinHandle, { live?: string; onEvent?: (e: TwinEvent) => void; className?: string }>(function UnityTwin({ live, onEvent, className = '' }, ref) {
+/** siteUrl: 기본 공장(가상 공장 A) 대신 열 site.json 주소 — Unity 가 시작할 때 한 번 읽는다 */
+const UnityTwin = forwardRef<TwinHandle, { live?: string; onEvent?: (e: TwinEvent) => void; className?: string; siteUrl?: string }>(function UnityTwin({ live, onEvent, className = '', siteUrl }, ref) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const inst = useRef<UnityInstance | null>(null)
   const onEventRef = useRef(onEvent)
@@ -58,6 +59,7 @@ const UnityTwin = forwardRef<TwinHandle, { live?: string; onEvent?: (e: TwinEven
     started.current = true
     setStatus('loading'); setProgress(0)
     window.factraTwin = {
+      siteUrl,
       onEvent: e => {
         if (e.type === 'ready' && alive.current) setStatus('ready')
         onEventRef.current?.(e)

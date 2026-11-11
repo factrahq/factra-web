@@ -8,8 +8,8 @@ import CTA from '@/components/sections/CTA'
 import Button from '@/components/ui/Button'
 import FadeIn from '@/components/ui/FadeIn'
 import UnityTwin, { type TwinHandle } from '@/components/twin/UnityTwin'
-import { machines, initialLive, step, isAlarm, type Live } from '@/lib/demo-factory'
-import { twinLivePayload, twinEventText, type TwinEvent } from '@/lib/twin'
+import { type TwinEvent } from '@/lib/twin'
+import { SAEBYEOK_SITE_URL, saebyeok, saebyeokInitial, saebyeokStep, saebyeokAlarms, saebyeokPayload, saebyeokEventText, saebyeokAlarmText, type SaebyeokLive } from '@/lib/twin-saebyeok'
 
 const layers = [
   { icon: Activity, k: 'Factra Platform', t: '설비 상태 · 측정값', d: '가동·대기·정지와 알람을 설비 위 경광등 색으로, 측정값을 라벨로 보여 줍니다. 설비를 누르면 실시간 값과 추이가 나옵니다.', s: '데모 연동' },
@@ -33,38 +33,40 @@ const steps = [
 
 function DemoTwin() {
   const twin = useRef<TwinHandle>(null)
-  const [live, setLive] = useState<Live>(initialLive)
+  const [live, setLive] = useState<SaebyeokLive>(saebyeokInitial)
   const [log, setLog] = useState<{ time: string; msg: string; sev: string }[]>([])
-  useEffect(() => { const id = setInterval(() => setLive(prev => step(prev)), 1500); return () => clearInterval(id) }, [])
-  const alarmIds = useMemo(() => {
-    const s = new Set<string>()
-    for (const m of machines) for (const p of m.points) if (isAlarm(p, live[m.id][p.key].at(-1)!)) s.add(m.id)
-    return s
-  }, [live])
-  const payload = useMemo(() => twinLivePayload(live, alarmIds), [live, alarmIds])
-  const onEvent = (e: TwinEvent) => {
-    const ev = twinEventText(e)
+  useEffect(() => { const id = setInterval(() => setLive(prev => saebyeokStep(prev)), 1500); return () => clearInterval(id) }, [])
+  const alarmIds = useMemo(() => saebyeokAlarms(live), [live])
+  const payload = useMemo(() => saebyeokPayload(live, alarmIds), [live, alarmIds])
+  const push = (ev: { msg: string; sev: string } | null) => {
     if (!ev) return
     const d = new Date()
     setLog(prev => [{ time: d.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }), msg: ev.msg, sev: ev.sev }, ...prev].slice(0, 4))
   }
+  // 설비 알람이 새로 켜질 때 한 번 기록
+  const prevAlarms = useRef<Set<string>>(new Set())
+  useEffect(() => {
+    for (const id of alarmIds) if (!prevAlarms.current.has(id)) push(saebyeokAlarmText(id, live))
+    prevAlarms.current = alarmIds
+  }, [alarmIds]) // eslint-disable-line react-hooks/exhaustive-deps
+  const onEvent = (e: TwinEvent) => push(saebyeokEventText(e))
   return (
     <div className="border border-line-ink bg-ink-2 p-3 md:p-4">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-        <p className="mono flex items-center gap-2 text-[12px] text-ok"><span className="blink h-2 w-2 rounded-full bg-ok" />LIVE <span className="text-on-ink-2">가상 공장 A · 설비 10대 · UWB 태그 7개</span></p>
+        <p className="mono flex items-center gap-2 text-[12px] text-ok"><span className="blink h-2 w-2 rounded-full bg-ok" />LIVE <span className="text-on-ink-2">{saebyeok.title} · 설비 {saebyeok.machineCount}대 · UWB 태그 {saebyeok.tagCount}개 · 앵커 {saebyeok.anchorCount}개</span></p>
         <div className="flex gap-1">
           {([['iso', '전체'], ['top', '위에서'], ['floor', '현장 높이']] as const).map(([k, l]) => (
             <button key={k} type="button" onClick={() => twin.current?.view(k)} className="border border-line-ink px-2.5 py-1 text-[12px] text-on-ink-2 hover:border-white/40 hover:text-white">{l}</button>
           ))}
         </div>
       </div>
-      <UnityTwin ref={twin} live={payload} onEvent={onEvent} className="aspect-[4/3] w-full md:aspect-[16/9]" />
+      <UnityTwin ref={twin} live={payload} onEvent={onEvent} siteUrl={SAEBYEOK_SITE_URL} className="aspect-[4/3] w-full md:aspect-[16/9]" />
       <div className="mt-3 grid gap-3 md:grid-cols-[1fr_auto] md:items-start">
         <ul className="min-h-[24px] space-y-1 text-[12.5px]">
-          {log.length === 0 ? <li className="text-on-ink-3">지게차가 작업자에게 다가가거나 누군가 수전실에 들어가면 여기에 기록됩니다.</li>
+          {log.length === 0 ? <li className="text-on-ink-3">지게차가 작업자에게 다가가거나, 누군가 용접 셀·수배전실에 들어가거나, 설비 알람이 나면 여기에 기록됩니다.</li>
             : log.map((l, i) => <li key={i} className="flex gap-3"><span className="mono text-on-ink-3">{l.time}</span><span style={{ color: l.sev === 'critical' ? '#FF7A47' : '#E0A82E' }}>{l.msg}</span></li>)}
         </ul>
-        <Link href="/platform/demo/#twin" className="text-[13px] font-semibold text-signal-2 hover:text-white">측정값까지 보려면 Platform 데모에서 →</Link>
+        <Link href="/platform/demo/#twin" className="text-[13px] font-semibold text-signal-2 hover:text-white">설비 데이터와 함께 보려면 Platform 데모에서 →</Link>
       </div>
     </div>
   )
@@ -86,7 +88,7 @@ export default function TwinPage() {
 
       <section id="demo" className="bg-ink text-white grid-ink scroll-mt-[68px]">
         <div className="wrap section">
-          <SectionHead dark eyebrow="Live demo" title="직접 돌려 보세요." desc="모든 값은 가상 공장 데이터이며 브라우저 안에서만 움직입니다. 드래그로 회전하고, 휠로 확대하고, 설비나 사람을 눌러 보세요." />
+          <SectionHead dark eyebrow="Live demo" title="직접 돌려 보세요." desc="가상 고객 공장(새벽정밀 화성 1공장 — 실제 회사와 무관)을 도면과 현장 기록으로 배치한 예시입니다. 모든 값은 가상이며 브라우저 안에서만 움직입니다. 드래그로 회전하고, 휠로 확대하고, 설비나 사람을 눌러 보세요." />
           <FadeIn delay={0.1} className="mt-12"><DemoTwin /></FadeIn>
         </div>
       </section>
