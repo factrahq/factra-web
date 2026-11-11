@@ -162,7 +162,7 @@ function Products() {
           <FadeIn><p className="max-w-[380px] text-[15px] text-fg-2">설비 데이터 수집과 MES(DX)를 바탕으로 비전 검사·위치추적(AX)을 더합니다. 현장 엣지 장비가 먼저 처리해, 네트워크가 끊겨도 기록을 잃지 않습니다.</p></FadeIn>
         </div>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {products.map((p, i) => (
             <FadeIn key={p.key} delay={i * 0.1}>
               <Link href={p.href} className="group block h-full bg-card border border-line transition-colors hover:border-fg">

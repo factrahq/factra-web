@@ -45,6 +45,7 @@ export default function Rtls() {
         desc="Factra RTLS는 UWB(초광대역) 기반 실시간 위치추적 시스템입니다. 하나의 하드웨어로 접근 경보와 위치 추적을 모두 하고, 용도는 펌웨어 설정으로 바꿉니다."
       >
         <Button href="/contact/">파일럿 참여 문의</Button>
+        <Button href="/twin/" variant="ghost-light">3D 트윈에서 보기</Button>
       </PageHero>
 
       <section className="section">

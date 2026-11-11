@@ -16,11 +16,15 @@ npm run build   # → out/
 | `/mes/` | Factra MES (DX) — 수주·재고·생산·품질 4개 앱, 업무 흐름, 화면 예시(가상 데이터), 품질 AI(선택), 일정·산출물, 양사 역할, 검수, 비용. 원본: 컨포트랩 「PORTA MES 도입 안내 v1.1」 |
 | `/vision/` | Factra Vision (AX, factrahq/factra-vision) |
 | `/rtls/` | Factra RTLS (AX, factrahq/uwb-rtls), 개발 중 |
+| `/twin/` | Factra Twin — Unity 3D 디지털 트윈 데모 (원본 factrahq/factra-twin, 비공개 · 로컬 `~/factra/factra-twin`). `/platform/demo/#twin` 에도 같은 3D 화면 |
 | `/process/` | 도입 8단계 · 견적 방식(확정/조건부/별도) · 정부지원사업 |
 | `/field/` | Factra Field — 현장 실측 (factrahq/factra-field), 메뉴엔 없고 푸터·도입 절차에서 링크 |
 | `/cases/` | 도입 사례 — 화학소재 설비 데이터 수집(DX), 전자부품 릴 라벨 비전(AX). 고객사명 비공개 |
 | `/company/` | 회사 소개 (Factory + Transformation) · 원칙 · 연혁 · 회사 정보 |
 | `/contact/` | 도입 문의 (지금은 mailto) |
+
+## 3D 트윈 (Unity WebGL)
+`public/twin/Build/` 는 `factra-twin` 빌드 결과(약 5.2 MB)다. 3D 를 고치면 그쪽에서 빌드한 뒤 `sh scripts/sync-twin.sh` 로 복사한다. 웹 연동 코드는 `src/lib/twin.ts`, `src/components/twin/UnityTwin.tsx`, `src/components/demo/Twin.tsx`.
 
 ## 확인 필요 (TODO)
 - `src/lib/site.ts` — 법인명·대표·사업자등록번호·주소·전화 (비어 있으면 화면에 안 나옴), `contact@factra.kr` 메일함

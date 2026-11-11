@@ -55,6 +55,15 @@ export const products = [
     image: '/images/warehouse.jpg',
     status: '개발 중',
   },
+  {
+    key: 'twin',
+    name: 'Factra Twin',
+    href: '/twin/',
+    short: 'AX · 3D 디지털 트윈',
+    desc: '설비 데이터, 작업지시, UWB 위치를 하나의 3D 공장 위에 겹쳐 봅니다. 접근 경보와 출입 제한 구역도 공장 배치 그대로.',
+    image: '/images/control-room.jpg',
+    status: '데모 공개',
+  },
 ] as const
 
 export const nav = [
@@ -62,6 +71,7 @@ export const nav = [
   { label: 'MES', href: '/mes/' },
   { label: 'Vision', href: '/vision/' },
   { label: 'RTLS', href: '/rtls/' },
+  { label: 'Twin', href: '/twin/' },
   { label: '도입 절차', href: '/process/' },
   { label: '도입 사례', href: '/cases/' },
   { label: '회사 소개', href: '/company/' },

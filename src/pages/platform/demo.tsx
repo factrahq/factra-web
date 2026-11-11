@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { LayoutDashboard, Factory, LineChart, Bell, Bot, ArrowLeft } from 'lucide-react'
+import { LayoutDashboard, Box, Factory, LineChart, Bell, Bot, ArrowLeft } from 'lucide-react'
 import Seo from '@/components/layout/Seo'
 import { machines, initialLive, step, isAlarm, fmt, DEMO_START_MIN, type Live } from '@/lib/demo-factory'
 import { pastEvents, type LogEvent } from '@/lib/demo-data'
@@ -9,9 +9,12 @@ import Equipment from '@/components/demo/Equipment'
 import Analysis from '@/components/demo/Analysis'
 import Events from '@/components/demo/Events'
 import Assistant from '@/components/demo/Assistant'
+import Twin, { type TwinLog } from '@/components/demo/Twin'
+import { twinEventText, type TwinEvent } from '@/lib/twin'
 
 const views = [
   { id: 'overview', icon: LayoutDashboard, t: '통합 관제', s: '관제', d: '공장 배치도 위에서 설비 상태와 실시간 값을 봅니다.' },
+  { id: 'twin', icon: Box, t: '3D 트윈', s: '3D', d: '같은 공장을 3D로 봅니다. 설비 측정값과 UWB 태그 위치, 위험 감지가 실시간으로 움직입니다.' },
   { id: 'equipment', icon: Factory, t: '설비 관리', s: '설비', d: '가동률, 오늘 가동 타임라인, 점검 일정과 조치를 관리합니다.' },
   { id: 'analysis', icon: LineChart, t: '데이터 분석', s: '분석', d: '데이터포인트를 골라 기간별 추이를 보고 CSV로 내려받습니다.' },
   { id: 'events', icon: Bell, t: '이벤트 · 알림', s: '이벤트', d: '기준을 벗어난 기록과 알림 규칙을 봅니다.' },
@@ -24,6 +27,7 @@ export default function PlatformDemo() {
   const [live, setLive] = useState<Live>(initialLive)
   const [now, setNow] = useState<Date | null>(null)
   const [liveLog, setLiveLog] = useState<LogEvent[]>([])
+  const [twinLog, setTwinLog] = useState<TwinLog[]>([])
 
   // 화면 주소의 #analysis 같은 값으로 바로 열 수 있게
   useEffect(() => {
@@ -81,12 +85,23 @@ export default function PlatformDemo() {
       .map(e => ({ time: hm(e.t), tag: e.tag, msg: e.msg }))
   }, [liveLog, now?.toDateString()]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // 3D 트윈의 RTLS 이벤트(접근 경보·출입 제한 구역)를 이벤트 기록에도 남긴다
+  const onTwinEvent = (e: TwinEvent) => {
+    const ev = twinEventText(e)
+    if (!ev) return
+    const t = now ? now.getTime() : Date.now()
+    const d = new Date(t)
+    const time = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
+    setTwinLog(prev => [{ time, tag: ev.tag, msg: ev.msg, sev: ev.sev }, ...prev].slice(0, 30))
+    setLiveLog(prev => [{ t, tag: ev.tag, msg: ev.msg, sev: ev.sev, resolved: true }, ...prev].slice(0, 60))
+  }
+
   const cur = views.find(v => v.id === view)!
   const alarmIds = new Set(alarms.map(a => a.id))
 
   return (
     <>
-      <Seo title="Factra Platform 데모" description="가상 공장 데이터로 움직이는 Factra Platform 데모. 통합 관제, 설비 관리, 데이터 분석, 이벤트·알림, AI 어시스턴트를 직접 눌러 봅니다." />
+      <Seo title="Factra Platform 데모" description="가상 공장 데이터로 움직이는 Factra Platform 데모. 통합 관제, 3D 디지털 트윈, 설비 관리, 데이터 분석, 이벤트·알림, AI 어시스턴트를 직접 눌러 봅니다." />
       <div className="min-h-screen bg-ink pt-[68px] text-on-ink [color-scheme:dark]">
         <div className="border-b border-line-ink bg-signal/10">
           <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 py-2.5 md:px-6">
@@ -125,6 +140,7 @@ export default function PlatformDemo() {
             {now && (
               <>
                 {view === 'overview' && <Overview live={live} alarmIds={alarmIds} alarmCount={alarms.length} events={recent} />}
+                {view === 'twin' && <Twin live={live} alarmIds={alarmIds} log={twinLog} onTwinEvent={onTwinEvent} />}
                 {view === 'equipment' && <Equipment now={now} />}
                 {view === 'analysis' && <Analysis now={now} />}
                 {view === 'events' && <Events now={now} live={liveLog} />}
