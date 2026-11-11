@@ -33,7 +33,7 @@ export type Machine = {
   points: Point[]
 }
 
-// 배치(구역·설비 위치·이름)는 3D 트윈과 같은 현장 패키지에서 읽는다. 원본: factra-twin/samples/demo-factory-a/site.json
+// 배치(구역·설비 위치·이름)는 3D 트윈과 같은 현장 패키지에서 읽는다. 원본: factra-twin/site-format/samples/demo-factory-a/site.json
 // (scripts/sync-twin.sh 가 src/lib/demo-site.json 으로 복사). 배치도 1단위 = 0.07 m, viewBox 1000×560
 const S = 0.07
 const u = (m: number) => Math.round((m / S) * 100) / 100
