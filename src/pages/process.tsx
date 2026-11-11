@@ -89,7 +89,7 @@ export default function Process() {
 
       <section className="section">
         <div className="wrap">
-          <SectionHead eyebrow="Government support" title="정부지원사업도 같이 준비합니다." desc="상당수 프로젝트가 지원사업으로 진행됩니다. 과제 범위 설정부터 수행까지 한 팀이 맡습니다." />
+          <SectionHead eyebrow="Government support" title="정부지원사업도 같이 준비합니다." desc="중소 제조 현장은 지원사업으로 진행하는 경우가 많습니다. 과제 범위 설정부터 수행까지 한 팀이 맡습니다." />
           <div className="mt-14 grid gap-6 md:grid-cols-3">
             {support.map((s, i) => (
               <FadeIn key={s.t} delay={i * 0.1} className="border border-line bg-card p-8">

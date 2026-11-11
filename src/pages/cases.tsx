@@ -52,12 +52,34 @@ const cases = [
       ['배포 전 검증', '현장 기록 4,339건 재생 일치'],
     ],
   },
+  {
+    tag: 'AX · Factra Vision · PoC',
+    industry: '식품 제조',
+    title: '컨베이어 불량 실시간 검출 · 개체 추적',
+    image: '/images/case-food-detect.jpg',
+    before: [
+      '컨베이어로 흐르는 제품 사이의 불량을 작업자가 눈으로 확인',
+      '몇 개를 걸렀는지, 어떤 불량이었는지 기록이 남지 않음',
+    ],
+    how: [
+      'USB 카메라가 컨베이어를 계속 촬영 — 촬영 신호 없이 흐르는 영상에서 판정',
+      'AI 객체 검출로 프레임마다 불량 개체를 찾음',
+      '개체 추적 — 여러 프레임에 보인 같은 불량은 한 번만 집계',
+      '불량 확정 시 경광등·부저 알림, 캡처 이미지와 함께 개체 단위로 기록',
+      'NVIDIA Jetson에 경량화(TensorRT) 배포 — 라인 옆에서 처리',
+    ],
+    after: [
+      ['판정 방식', '연속 영상 · 개체 단위'],
+      ['출력', '경광등 · 부저 · 기록'],
+      ['처리', '라인 옆 엣지 (Jetson)'],
+    ],
+  },
 ]
 
 export default function Cases() {
   return (
     <>
-      <Seo title="도입 사례" description="Factra 도입 사례 — 화학소재 공장 설비 데이터 수집(DX), 전자부품 입고 릴 라벨 자동 판독(AX)." />
+      <Seo title="도입 사례" description="Factra 도입 사례 — 화학소재 공장 설비 데이터 수집(DX), 전자부품 입고 릴 라벨 자동 판독(AX), 식품 컨베이어 불량 검출(AX)." />
       <PageHero
         eyebrow="Cases"
         image="/images/sparks.jpg"

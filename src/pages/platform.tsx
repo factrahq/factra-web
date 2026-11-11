@@ -175,14 +175,14 @@ export default function Platform() {
           <SectionHead eyebrow="Deployment" title="도입 형태" />
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             <FadeIn className="border border-line bg-card p-8">
-              <Cloud size={26} strokeWidth={1.6} className="text-signal" />
-              <h3 className="mt-6 text-[21px] font-bold">클라우드 구독</h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-fg-2">공장 안에 서버를 두지 않습니다. 국내 클라우드에서 운영하고, 서버·유지보수 비용이 구독료에 포함됩니다. 데이터 규모에 맞춰 단계를 고릅니다.</p>
+              <Server size={26} strokeWidth={1.6} className="text-signal" />
+              <h3 className="mt-6 text-[21px] font-bold">구축형 · 공장 내 설치</h3>
+              <p className="mt-3 text-[15px] leading-relaxed text-fg-2">공장 안 서버에 한 번 구축하고, 이후엔 유지보수 계약으로 운영합니다. 월 이용료가 없고 데이터는 공장 밖으로 나가지 않습니다.</p>
             </FadeIn>
             <FadeIn delay={0.1} className="border border-line bg-card p-8">
-              <Server size={26} strokeWidth={1.6} className="text-signal" />
-              <h3 className="mt-6 text-[21px] font-bold">공장 내 설치</h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-fg-2">데이터를 공장 밖으로 내보낼 수 없는 경우, 공장 안 서버에 설치합니다. 구축 후 유지보수 계약으로 운영을 이어갑니다.</p>
+              <Cloud size={26} strokeWidth={1.6} className="text-signal" />
+              <h3 className="mt-6 text-[21px] font-bold">구독형 · 클라우드</h3>
+              <p className="mt-3 text-[15px] leading-relaxed text-fg-2">공장 안에 서버를 두지 않고 국내 클라우드에서 운영합니다. 서버·유지보수 비용이 월 이용료에 포함되고, 데이터 규모에 맞춰 단계를 고릅니다.</p>
             </FadeIn>
           </div>
         </div>

@@ -12,7 +12,7 @@ const sections: { t: string; body: (string | string[])[] }[] = [
   { t: '6. 파기 방법', body: ['보유 기간이 지나면 메일과 파일을 지우고, 출력한 문서는 분쇄합니다.'] },
   { t: '7. 정보주체의 권리', body: ['언제든 내 정보를 열람하거나 고치거나 지워 달라고, 또는 처리를 멈춰 달라고 요청할 수 있습니다. 아래 이메일로 알려 주시면 바로 처리합니다.'] },
   { t: '8. 샘플 사진', body: ['검사 가능 여부를 보기 위해 받은 사진은 그 검토에만 씁니다. 요청하시면 검토 후 지우고, 필요하면 비밀유지계약(NDA)을 먼저 맺습니다.'] },
-  { t: '9. 문의처', body: [`개인정보 관련 문의: ${company.email}`] },
+  { t: '9. 개인정보 보호책임자', body: ['성명: 박준규', '연락처: cto@matchesplan.com', `개인정보 관련 문의: ${company.email}`] },
 ]
 
 export default function Privacy() {
@@ -34,7 +34,7 @@ export default function Privacy() {
               </div>
             ))}
           </div>
-          <p className="mt-14 border-t border-line pt-6 text-[13px] text-fg-3">시행일: 2026년 11월 9일</p>
+          <p className="mt-14 border-t border-line pt-6 text-[13px] text-fg-3">시행일: 2026년 11월 11일</p>
         </div>
       </section>
     </>
