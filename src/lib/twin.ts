@@ -5,7 +5,7 @@
 import { machines, isAlarm, fmt, type Live } from './demo-factory'
 
 export const TWIN_BUILD = '/twin/Build/twin'
-export const TWIN_SIZE_MB = 5.4 // 3D 빌드 내려받기 크기 (MB, 압축 기준) — Unity 빌드 후 갱신
+export const TWIN_SIZE_MB = 6.1 // 3D 빌드 내려받기 크기 (MB, 압축 기준) — Unity 빌드 후 갱신
 // Unity 압축(Gzip) + 해제 대체(decompressionFallback): GitHub Pages 가 Content-Encoding 을 못 붙여 로더가 직접 푼다
 export const TWIN_FILES = { data: '.data.unityweb', framework: '.framework.js.unityweb', code: '.wasm.unityweb' }
 
