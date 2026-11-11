@@ -11,6 +11,9 @@ DST="public/twin/Build"
 rm -rf "$DST" && mkdir -p "$DST"
 cp "$SRC"/twin.loader.js "$SRC"/twin.data.unityweb "$SRC"/twin.framework.js.unityweb "$SRC"/twin.wasm.unityweb "$DST"/
 du -ch "$DST"/* | tail -1
+# 빌드 파일 이름이 늘 같아서 브라우저가 예전 wasm 을 캐시에서 섞어 쓰면 "function signature mismatch" 로 3D 가 안 뜬다 → 주소에 버전
+V=$(cat "$DST"/twin.wasm.unityweb "$DST"/twin.framework.js.unityweb "$DST"/twin.data.unityweb | shasum | cut -c1-10)
+printf "// sync-twin.sh 가 만든다 — 직접 고치지 않는다\nexport const TWIN_VERSION = '%s'\n" "$V" > src/lib/twin-version.ts && echo "TWIN_VERSION $V"
 cp "$TWIN/site-format/samples/demo-factory-a/site.json" src/lib/demo-site.json && echo "site.json → src/lib/demo-site.json"
 # /twin 페이지 3D = 새벽정밀(가상) 공장: Unity 가 내려받는 public 사본 + 설비 목록을 읽는 src 사본
 mkdir -p public/twin/sites

@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { Box, Loader2, RotateCw } from 'lucide-react'
-import { TWIN_BUILD, TWIN_FILES, TWIN_SIZE_MB, type TwinEvent } from '@/lib/twin'
+import { TWIN_BUILD, TWIN_FILES, TWIN_SIZE_MB, TWIN_V, type TwinEvent } from '@/lib/twin'
 
 type UnityInstance = { SendMessage: (obj: string, method: string, arg?: string | number) => void; Quit: () => Promise<void> }
 declare global {
@@ -18,7 +18,7 @@ function loadLoader() {
   if (!loaderPromise) {
     loaderPromise = new Promise((resolve, reject) => {
       const s = document.createElement('script')
-      s.src = `${TWIN_BUILD}.loader.js`
+      s.src = `${TWIN_BUILD}.loader.js${TWIN_V}`
       s.async = true
       s.onload = () => resolve()
       s.onerror = () => { loaderPromise = null; reject(new Error('loader')) }
@@ -69,9 +69,9 @@ const UnityTwin = forwardRef<TwinHandle, { live?: string; onEvent?: (e: TwinEven
       await loadLoader()
       if (!alive.current || !canvasRef.current || !window.createUnityInstance) return
       inst.current = await window.createUnityInstance(canvasRef.current, {
-        dataUrl: `${TWIN_BUILD}${TWIN_FILES.data}`,
-        frameworkUrl: `${TWIN_BUILD}${TWIN_FILES.framework}`,
-        codeUrl: `${TWIN_BUILD}${TWIN_FILES.code}`,
+        dataUrl: `${TWIN_BUILD}${TWIN_FILES.data}${TWIN_V}`,
+        frameworkUrl: `${TWIN_BUILD}${TWIN_FILES.framework}${TWIN_V}`,
+        codeUrl: `${TWIN_BUILD}${TWIN_FILES.code}${TWIN_V}`,
         streamingAssetsUrl: 'StreamingAssets',
         companyName: 'FACTRA',
         productName: 'Factra Twin',
