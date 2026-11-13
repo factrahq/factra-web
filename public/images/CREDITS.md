@@ -19,3 +19,12 @@
 
 Unsplash 이미지 원본 주소: `https://images.unsplash.com/photo-<ID>`.
 실제 현장 사진(고객 동의 후)으로 바꾸는 것을 권장한다.
+
+## 자사 현장 촬영
+| 파일 | 내용 |
+|---|---|
+| case-electronics-cell.jpg | 전자부품 릴 라벨 부착 셀 (고객사·KRNA 사진 사용 허락, 배경 블러) |
+| case-electronics-ai.jpg | 같은 현장 비전 장비 촬영 원본 + AI 라벨 영역 검출 박스 (2026-11-12 운전 기록, 검출 안 된 쪽 라벨은 블러) |
+| case-chemical-process.jpg | 화학소재 공장 공정 설비(반응기 상부) — 크롭, 태그·포대 블러, 채도 낮춤 |
+| case-chemical-panel.jpg | 같은 공장 조작 패널 — 설비 태그 라벨·교정 필증·안내문 블러 |
+| case-chemical-cabinet.jpg | 같은 공장 제어반 내부 |

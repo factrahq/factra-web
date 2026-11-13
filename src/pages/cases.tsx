@@ -3,37 +3,55 @@ import PageHero from '@/components/sections/PageHero'
 import SectionHead from '@/components/sections/SectionHead'
 import CTA from '@/components/sections/CTA'
 import FadeIn from '@/components/ui/FadeIn'
+import Slideshow, { type Slide } from '@/components/ui/Slideshow'
 
 // 고객사 이름은 공개 동의 전까지 쓰지 않는다 (업종으로만 표기)
-const cases = [
+type Case = {
+  tag: string
+  industry: string
+  title: string
+  image: string | Slide[]
+  before: string[]
+  how: string[]
+  after: string[][]
+}
+
+const cases: Case[] = [
   {
     tag: 'DX · 설비 데이터 수집 · 구축 진행 중',
-    industry: '화학소재(접착제) 제조',
-    title: '4개 라인 · 91대 설비 데이터 수집 체계 구축',
-    image: '/images/process-plant.jpg',
+    industry: '화학소재 제조',
+    title: '공장 전체 90여 대 설비 데이터 수집 체계 구축',
+    image: [
+      { src: '/images/case-chemical-process.jpg', caption: '공정 설비' },
+      { src: '/images/case-chemical-panel.jpg', caption: '설비별 조작 패널' },
+      { src: '/images/case-chemical-cabinet.jpg', caption: '제어반 내부' },
+    ],
     before: [
       '인버터·온도조절계·칠러 값이 설비마다 패널 화면에만 표시 — 사람이 돌며 수기 기록',
-      'LS·Siemens PLC, 인버터 3종, 조절계·전력량계까지 제조사와 통신 방식이 제각각',
+      'PLC·인버터·조절계·전력량계까지 제조사와 통신 방식이 제각각',
       '설비별 전력 사용량을 알 수 없어 에너지 절감 근거가 없음',
     ],
     how: [
-      '세 차례 현장 실측 — 제어반 50면을 조사해 기기 모델·통신 포트·결선을 설비마다 확인 (Factra Field)',
-      '공장이 쓰던 설비 태그 체계(TK·KN·WC…)를 그대로 데이터 식별자로 사용',
-      '기기별 통신 가능 여부 판정 → 교체가 필요한 조절계 27대 선별, 전력량계 25회로 추가',
-      '게이트웨이 9대 결선 설계 — 버스별 통신 속도·국번 체계 통일, 가동 중인 PLC는 읽기 전용 연결',
-      '수집 → 모니터링 → AI 분석 (제조AI특화 스마트공장 과제)',
+      '여러 차례 현장 실측 — 제어반 50여 면을 조사해 기기 모델·통신 포트·결선을 설비마다 확인 (Factra Field)',
+      '공장이 쓰던 설비 번호 체계를 그대로 데이터 식별자로 사용',
+      '기기별 통신 가능 여부 판정 → 교체가 필요한 조절계 선별, 회로별 전력량계 추가',
+      '게이트웨이 결선 설계 — 버스별 통신 속도·국번 체계 통일, 가동 중인 PLC는 읽기 전용 연결',
+      '수집 → 모니터링 → AI 분석 (스마트공장 지원사업)',
     ],
     after: [
-      ['연결 설계 기기', '91대 (4개 라인)'],
-      ['데이터 포인트', '163개 확정'],
-      ['게이트웨이', '9대 설계'],
+      ['연결 설계 기기', '90여 대'],
+      ['데이터 포인트', '160여 개'],
+      ['조사한 제어반', '50여 면'],
     ],
   },
   {
     tag: 'AX · Factra Vision · 현장 가동',
     industry: '전자부품 제조',
     title: '입고 릴 라벨 자동 판독 · 자사 라벨 부착',
-    image: '/images/hands-electronics.jpg',
+    image: [
+      { src: '/images/case-electronics-cell.jpg', caption: '라벨 부착 셀' },
+      { src: '/images/case-electronics-ai.jpg', caption: 'AI 라벨 영역 검출' },
+    ],
     before: [
       '공급사마다 다른 릴 라벨을 작업자가 보고 품번·수량·로트를 확인',
       '자사 라벨 출력·부착을 사람이 처리 — 입력 실수는 뒤 공정에서 발견',
@@ -93,7 +111,9 @@ export default function Cases() {
             <div className="grid gap-12 lg:grid-cols-[1fr_1.15fr]">
               <FadeIn>
                 <div className="finder relative overflow-hidden bg-ink">
-                  <img src={c.image} alt="" className="aspect-[4/3] w-full object-cover" />
+                  {typeof c.image === 'string'
+                    ? <img src={c.image} alt="" className="aspect-[4/3] w-full object-cover" />
+                    : <Slideshow slides={c.image} className="aspect-[4/3] w-full" />}
                 </div>
                 <div className="mt-6 grid grid-cols-3 gap-px border border-line bg-line">
                   {c.after.map(([k, v]) => (

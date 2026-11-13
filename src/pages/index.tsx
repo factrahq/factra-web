@@ -7,6 +7,7 @@ import FadeIn from '@/components/ui/FadeIn'
 import SectionHead from '@/components/sections/SectionHead'
 import CTA from '@/components/sections/CTA'
 import { products } from '@/lib/site'
+import Slideshow, { type Slide } from '@/components/ui/Slideshow'
 
 const ease = [0.16, 1, 0.3, 1] as const
 
@@ -188,9 +189,9 @@ function Products() {
 }
 
 const proofs = [
-  { n: '91', u: '대', d: '화학소재 공장 4개 라인의 인버터·조절계·PLC·칠러·전력량계를 하나의 수집 체계로 연결 설계' },
-  { n: '163', u: '포인트', d: '설비 태그 그대로 정리해 확정한 데이터 포인트. 게이트웨이 9대로 모읍니다' },
-  { n: '50', u: '면', d: '세 차례 실측에서 조사한 제어반. 기기 모델과 통신 방식을 설비마다 판정했습니다' },
+  { n: '90+', u: '대', d: '화학소재 공장의 인버터·조절계·PLC·칠러·전력량계를 하나의 수집 체계로 연결 설계' },
+  { n: '160+', u: '포인트', d: '공장의 설비 번호 그대로 정리해 확정한 데이터 포인트. 엣지 게이트웨이로 모읍니다' },
+  { n: '50+', u: '면', d: '현장 실측에서 조사한 제어반. 기기 모델과 통신 방식을 설비마다 판정했습니다' },
   { n: '4,339', u: '사이클', d: '전자부품 비전 라인의 실제 운전 기록을 새 버전으로 다시 돌려, 배포 전에 판정이 바뀌지 않음을 확인' },
 ]
 
@@ -308,7 +309,7 @@ const transform = [
     title: '설비를 데이터로',
     desc: '인버터·온도조절계·PLC·전력량계처럼 패널 화면에만 있던 값을 현장 수집 장치(게이트웨이)로 모읍니다. 제조사가 달라도, 가동 중인 설비를 멈추지 않고 읽기만 해서 연결합니다.',
     items: ['설비 데이터 수집 · 모니터링', '설비별 전력 사용량', 'MES 수주 · 재고 · 생산 · 품질'],
-    proof: '화학소재 공장 · 4개 라인 91대 기기 연결 설계',
+    proof: '화학소재 공장 · 90여 대 기기 연결 설계',
     image: '/images/process-plant.jpg',
   },
   {
@@ -355,20 +356,27 @@ function Transformation() {
   )
 }
 
-const caseTeasers = [
+const caseTeasers: { tag: string; title: React.ReactNode; desc: string; facts: string[][]; image: string | Slide[] }[] = [
   {
-    tag: 'DX · 화학소재(접착제) 제조',
-    title: <>4개 라인, 91대 설비를<br />하나의 데이터로.</>,
-    desc: '인버터·온도조절계·PLC·칠러·전력량계 값이 패널마다 흩어져 있던 공장. 세 차례 현장 실측으로 설비 태그와 통신 방식을 전수 확인하고, 게이트웨이 9대로 163개 데이터 포인트를 모으는 수집 체계를 설계했습니다.',
-    facts: [['상태', '구축 진행 중'], ['대상', '제조AI특화 스마트공장']],
-    image: '/images/process-plant.jpg',
+    tag: 'DX · 화학소재 제조',
+    title: <>90여 대 설비를<br />하나의 데이터로.</>,
+    desc: '인버터·온도조절계·PLC·칠러·전력량계 값이 패널마다 흩어져 있던 공장. 현장 실측으로 설비마다 기기와 통신 방식을 전수 확인하고, 160여 개 데이터 포인트를 엣지 게이트웨이로 모으는 수집 체계를 설계했습니다.',
+    facts: [['상태', '구축 진행 중'], ['대상', '스마트공장 지원사업']],
+    image: [
+      { src: '/images/case-chemical-process.jpg' },
+      { src: '/images/case-chemical-panel.jpg' },
+      { src: '/images/case-chemical-cabinet.jpg' },
+    ],
   },
   {
     tag: 'AX · 전자부품 제조',
     title: <>입고 릴 라벨 판독부터<br />자사 라벨 부착까지 자동으로.</>,
     desc: '공급사마다 제각각인 릴 라벨을 25MP 카메라로 찍어 AI가 라벨을 찾고 바코드·QR을 읽습니다. MES 입고 후 로봇이 붙일 라벨 좌표를 PLC로 넘기고, 두 번째 카메라가 결과를 다시 확인합니다. 개선 후 첫 운전 922건에서 비전 판독 NG는 0건이었습니다.',
     facts: [['상태', '현장 가동 중'], ['연동', 'PLC · MES · 로봇']],
-    image: '/images/hands-electronics.jpg',
+    image: [
+      { src: '/images/case-electronics-cell.jpg' },
+      { src: '/images/case-electronics-ai.jpg' },
+    ],
   },
 ]
 
@@ -383,7 +391,11 @@ function CaseTeaser() {
         <div className="mt-14 grid gap-6 lg:grid-cols-2">
           {caseTeasers.map((c, i) => (
             <FadeIn key={c.tag} delay={i * 0.1} className="flex flex-col border border-line bg-card">
-              <div className="aspect-[16/9] overflow-hidden bg-ink"><img src={c.image} alt="" className="h-full w-full object-cover" /></div>
+              <div className="aspect-[16/9] overflow-hidden bg-ink">
+                {typeof c.image === 'string'
+                  ? <img src={c.image} alt="" className="h-full w-full object-cover" />
+                  : <Slideshow slides={c.image} className="h-full w-full" />}
+              </div>
               <div className="flex flex-1 flex-col p-8">
                 <p className="eyebrow text-fg-2">{c.tag}</p>
                 <h3 className="mt-4 text-[clamp(1.3rem,2vw,1.65rem)] font-bold leading-snug tracking-[-0.03em]">{c.title}</h3>
